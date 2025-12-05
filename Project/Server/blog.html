@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - ShopEasy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e11d48;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #666666;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #e11d48;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e11d48;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: #e11d48;
+        }
+
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .products-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .products-header h1 {
+            font-size: 3.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .products-header .highlight {
+            color: #e11d48;
+        }
+
+        .products-header p {
+            font-size: 1.2rem;
+            color: #666666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: #e11d48;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #fef2f2, #fce7f3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border-bottom: 1px solid #e5e5e5;
+            position: relative;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e11d48;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-content {
+            padding: 2rem;
+        }
+
+        .product-category {
+            color: #e11d48;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card h2 {
+            font-size: 1.4rem;
+            color: #1a1a1a;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .product-card p {
+            color: #666666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e11d48;
+        }
+
+        .original-price {
+            font-size: 1.1rem;
+            color: #999999;
+            text-decoration: line-through;
+        }
+
+        .discount {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #e11d48;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #be185d;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .btn-secondary:hover {
+            background: #fef2f2;
+            border-color: #e11d48;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: #fbbf24;
+        }
+
+        .rating-text {
+            color: #666666;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: #1a1a1a;
+            border-top: 1px solid #333333;
+            padding: 2rem;
+            text-align: center;
+            color: #999999;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .nav-links.active {
+                max-height: 300px;
+            }
+
+            .nav-links a {
+                padding: 1rem 2rem;
+                display: block;
+            }
+
+            .products-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">ShopEasy</div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blog" class="active">Products</a></li>
+                <li><a href="/contect">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="products-header">
+            <h1>Our <span class="highlight">Products</span></h1>
+            <p>Discover our curated collection of high-quality products at amazing prices. Find everything you need in one place.</p>
+        </section>
+
+        <section class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    📱
+                    <div class="product-badge">Hot</div>
+                </div>
+                <div class="product-content">
+                    <div class="product-category">Electronics</div>
+                    <h2>Smartphone Pro Max</h2>
+                    <p>Latest flagship smartphone with advanced camera system, powerful processor, and all-day battery life.</p>
+                    <div class="rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-text">(4.8) 1,234 reviews</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$899</span>
+                        <span class="original-price">$1,199</span>
+                        <span class="discount">25% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">Add to Cart</button>
+                        <button class="btn btn-secondary">♡</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    💻
+                    <div class="product-badge">New</div>
+                </div>
+                <div class="product-content">
+                    <div class="product-category">Computers</div>
+                    <h2>Gaming Laptop Ultra</h2>
+                    <p>High-performance gaming laptop with RTX graphics, fast SSD storage, and RGB mechanical keyboard.</p>
+                    <div class="rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="rating-text">(4.6) 892 reviews</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$1,299</span>
+                        <span class="original-price">$1,599</span>
+                        <span class="discount">19% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">Add to Cart</button>
+                        <button class="btn btn-secondary">♡</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    🎧
+                </div>
+                <div class="product-content">
+                    <div class="product-category">Audio</div>
+                    <h2>Wireless Headphones</h2>
+                    <p>Premium noise-canceling headphones with superior sound quality and 30-hour battery life.</p>
+                    <div class="rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-text">(4.9) 2,156 reviews</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$249</span>
+                        <span class="original-price">$349</span>
+                        <span class="discount">29% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">Add to Cart</button>
+                        <button class="btn btn-secondary">♡</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    ⌚
+                    <div class="product-badge">Sale</div>
+                </div>
+                <div class="product-content">
+                    <div class="product-category">Wearables</div>
+                    <h2>Smart Watch Series 9</h2>
+                    <p>Advanced fitness tracking, heart rate monitoring, GPS, and seamless smartphone integration.</p>
+                    <div class="rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="rating-text">(4.5) 1,678 reviews</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$299</span>
+                        <span class="original-price">$399</span>
+                        <span class="discount">25% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">Add to Cart</button>
+                        <button class="btn btn-secondary">♡</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    📷
+                </div>
+                <div class="product-content">
+                    <div class="product-category">Photography</div>
+                    <h2>Digital Camera 4K</h2>
+                    <p>Professional mirrorless camera with 4K video recording, image stabilization, and interchangeable lenses.</p>
+                    <div class="rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-text">(4.7) 743 reviews</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$799</span>
+                        <span class="original-price">$999</span>
+                        <span class="discount">20% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">Add to Cart</button>
+                        <button class="btn btn-secondary">♡</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    🏠
+                    <div class="product-badge">Popular</div>
+                </div>
+                <div class="product-content">
+                    <div class="product-category">Smart Home</div>
+                    <h2>Smart Speaker Hub</h2>
+                    <p>Voice-controlled smart home hub with premium sound, built-in display, and home automation features.</p>
+                    <div class="rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="rating-text">(4.4) 1,987 reviews</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$149</span>
+                        <span class="original-price">$199</span>
+                        <span class="discount">25% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">Add to Cart</button>
+                        <button class="btn btn-secondary">♡</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 ShopEasy. All rights reserved. Your trusted online shopping partner.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
