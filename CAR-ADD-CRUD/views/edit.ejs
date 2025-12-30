@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Car - JENISH MOTORS</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../dist/style.css">
+
+</head>
+
+<body class="form-page">
+    <div class="form-container">
+        <div class="form-header">
+            <div>
+                <h1 class="form-title">Edit Vehicle</h1>
+                <p class="form-subtitle">Update the details of <%= car.name %>
+                </p>
+            </div>
+            <i class="fas fa-edit fa-3x"></i>
+        </div>
+
+        <div class="form-content">
+            <form action="/update/<%= car._id %>" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Car Name <span>*</span></label>
+                        <input type="text" class="form-input" name="name" value="<%= car.name %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Brand <span>*</span></label>
+                        <select class="form-select" name="brand" required>
+                            <option value="">Select Brand</option>
+                            <option value="BMW" <%=car.brand==='BMW' ? 'selected' : '' %>>BMW</option>
+                            <option value="Porsche" <%=car.brand==='Porsche' ? 'selected' : '' %>>Porsche</option>
+                            <option value="Ferrari" <%=car.brand==='Ferrari' ? 'selected' : '' %>>Ferrari</option>
+                            <option value="Mercedes-Benz" <%=car.brand==='Mercedes-Benz' ? 'selected' : '' %>
+                                >Mercedes-Benz</option>
+                            <option value="Audi" <%=car.brand==='Audi' ? 'selected' : '' %>>Audi</option>
+                            <option value="Range Rover" <%=car.brand==='Range Rover' ? 'selected' : '' %>>Range Rover
+                            </option>
+                            <option value="Lamborghini" <%=car.brand==='Lamborghini' ? 'selected' : '' %>>Lamborghini
+                            </option>
+                            <option value="Bentley" <%=car.brand==='Bentley' ? 'selected' : '' %>>Bentley</option>
+                            <option value="Rolls-Royce" <%=car.brand==='Rolls-Royce' ? 'selected' : '' %>>Rolls-Royce
+                            </option>
+                            <option value="Tesla" <%=car.brand==='Tesla' ? 'selected' : '' %>>Tesla</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Model <span>*</span></label>
+                        <input type="text" class="form-input" name="model" value="<%= car.model %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Price (₹) <span>*</span></label>
+                        <input type="number" class="form-input" name="price" value="<%= car.price %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Year <span>*</span></label>
+                        <input type="number" class="form-input" name="year" value="<%= car.year %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Fuel Type</label>
+                        <select class="form-select" name="fuel">
+                            <option value="Petrol" <%=(car.fuel || 'Petrol' )==='Petrol' ? 'selected' : '' %>>Petrol
+                            </option>
+                            <option value="Diesel" <%=car.fuel==='Diesel' ? 'selected' : '' %>>Diesel</option>
+                            <option value="Electric" <%=car.fuel==='Electric' ? 'selected' : '' %>>Electric</option>
+                            <option value="Hybrid" <%=car.fuel==='Hybrid' ? 'selected' : '' %>>Hybrid</option>
+                            <option value="Plug-in Hybrid" <%=car.fuel==='Plug-in Hybrid' ? 'selected' : '' %>>Plug-in
+                                Hybrid</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Transmission</label>
+                        <select class="form-select" name="transmission">
+                            <option value="Automatic" <%=(car.transmission || 'Automatic' )==='Automatic' ? 'selected'
+                                : '' %>>Automatic</option>
+                            <option value="Manual" <%=car.transmission==='Manual' ? 'selected' : '' %>>Manual</option>
+                            <option value="Semi-Automatic" <%=car.transmission==='Semi-Automatic' ? 'selected' : '' %>
+                                >Semi-Automatic</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Engine</label>
+                        <input type="text" class="form-input" name="engine" value="<%= car.engine || '' %>"
+                            placeholder="4.4L V8 Twin-Turbo">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Color</label>
+                        <input type="text" class="form-input" name="color" value="<%= car.color %>"
+                            placeholder="Mineral Grey Metallic">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" name="status">
+                            <option value="Available" <%=(car.status || 'Available' )==='Available' ? 'selected' : '' %>
+                                >Available</option>
+                            <option value="Reserved" <%=car.status==='Reserved' ? 'selected' : '' %>>Reserved</option>
+                            <option value="Sold" <%=car.status==='Sold' ? 'selected' : '' %>>Sold</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Image URL</label>
+                        <input type="url" class="form-input" name="image" value="<%= car.image || '' %>"
+                            placeholder="https://example.com/car.jpg">
+                        <small style="color: var(--gray); font-size: 12px; margin-top: 5px;">Leave empty to use default
+                            image</small>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" name="description"
+                            placeholder="Describe the vehicle features, condition, and highlights..."><%= car.description || '' %></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/" class="btn-form-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn-form-submit">
+                        <i class="fas fa-save"></i> Update Vehicle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function (e) {
+            const inputs = form.querySelectorAll('[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = '#dc3545';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill all required fields marked with *');
+            }
+        });
+    </script>
+</body>
+
+</html>

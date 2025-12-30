@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Employees</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px 0; }
+        .table-container { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 30px; margin-top: 20px; }
+        .page-title { color: white; font-weight: bold; text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .table { border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .table thead th { background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; font-weight: 600; padding: 15px; }
+        .table tbody td { padding: 12px 15px; vertical-align: middle; border-color: #e9ecef; }
+        .table tbody tr:hover { background-color: #f8f9fa; transform: scale(1.01); transition: all 0.2s; }
+        .btn-edit { background: linear-gradient(45deg, #28a745, #20c997); border: none; color: white; padding: 8px 15px; border-radius: 6px; }
+        .btn-delete { background: linear-gradient(45deg, #dc3545, #fd7e14); border: none; color: white; padding: 8px 15px; border-radius: 6px; }
+        .btn-add { background: linear-gradient(45deg, #667eea, #764ba2); border: none; color: white; padding: 12px 25px; border-radius: 8px; font-weight: 600; }
+        .action-buttons { display: flex; gap: 8px; justify-content: center; }
+        .hobby-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+        .hobby-tag { background: #e9ecef; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; }
+        .no-data { text-align: center; padding: 50px; color: #6c757d; }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1 class="page-title"><i class="fas fa-users"></i> Employee Management System</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="table-container">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="mb-0"><i class="fas fa-table"></i> All Employees</h3>
+                        <a href="/employee" class="btn btn-add">
+                            <i class="fas fa-plus"></i> Add New Employee
+                        </a>
+                    </div>
+                    
+                    <% if (allEmp && allEmp.length > 0) { %>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col"><i class="fas fa-user"></i> Name</th>
+                                        <th scope="col"><i class="fas fa-envelope"></i> Email</th>
+                                        <th scope="col"><i class="fas fa-venus-mars"></i> Gender</th>
+                                        <th scope="col"><i class="fas fa-rupee-sign"></i> Salary</th>
+                                        <th scope="col"><i class="fas fa-heart"></i> Hobbies</th>
+                                        <th scope="col"><i class="fas fa-briefcase"></i> Role</th>
+                                        <th scope="col"><i class="fas fa-cogs"></i> Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% allEmp.forEach((emp, index) => { %>
+                                        <tr>
+                                            <th scope="row"><%= index + 1 %></th>
+                                            <td><strong><%= emp.emp_name %></strong></td>
+                                            <td><%= emp.emp_email %></td>
+                                            <td>
+                                                <span class="badge <%= emp.emp_gender === 'Male' ? 'bg-primary' : 'bg-pink' %>">
+                                                    <i class="fas <%= emp.emp_gender === 'Male' ? 'fa-mars' : 'fa-venus' %>"></i>
+                                                    <%= emp.emp_gender %>
+                                                </span>
+                                            </td>
+                                            <td><strong>₹<%= emp.emp_salary.toLocaleString() %></strong></td>
+                                            <td>
+                                                <div class="hobby-tags">
+                                                    <% emp.emp_hobby.forEach(hobby => { %>
+                                                        <span class="hobby-tag"><%= hobby %></span>
+                                                    <% }) %>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary"><%= emp.emp_role %></span>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <a href="/employee/edit/<%= emp._id %>" class="btn btn-edit btn-sm" title="Edit Employee">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="/employee/delete/<%= emp._id %>" class="btn btn-delete btn-sm" 
+                                                       onclick="return confirm('Are you sure you want to delete this employee?')" title="Delete Employee">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">Total Employees: <strong><%= allEmp.length %></strong></small>
+                        </div>
+                    <% } else { %>
+                        <div class="no-data">
+                            <i class="fas fa-users fa-3x mb-3 text-muted"></i>
+                            <h4>No Employees Found</h4>
+                            <p>Start by adding your first employee!</p>
+                            <a href="/employee" class="btn btn-add">
+                                <i class="fas fa-plus"></i> Add First Employee
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .bg-pink { background-color: #e91e63 !important; }
+    </style>
+</body>
+</html>

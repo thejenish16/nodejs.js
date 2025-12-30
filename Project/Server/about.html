@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About ShopEasy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e11d48;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #666666;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #e11d48;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e11d48;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: #e11d48;
+        }
+
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .about-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .about-header h1 {
+            font-size: 3.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .about-header .highlight {
+            color: #e11d48;
+        }
+
+        .about-header p {
+            font-size: 1.2rem;
+            color: #666666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .content-block {
+            background: #ffffff;
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 2.5rem;
+        }
+
+        .content-block h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .content-block p {
+            color: #666666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .content-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-block ul li {
+            color: #666666;
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            line-height: 1.8;
+        }
+
+        .content-block ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #e11d48;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: #fef2f2;
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid #e11d48;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            color: #e11d48;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .highlight-box p {
+            color: #666666;
+            line-height: 1.8;
+        }
+
+        footer {
+            background: #1a1a1a;
+            border-top: 1px solid #333333;
+            padding: 2rem;
+            text-align: center;
+            color: #999999;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .nav-links.active {
+                max-height: 300px;
+            }
+
+            .nav-links a {
+                padding: 1rem 2rem;
+                display: block;
+            }
+
+            .about-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-block {
+                padding: 2rem;
+            }
+
+            .content-block h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">ShopEasy</div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about" class="active">About</a></li>
+                <li><a href="/blog">Products</a></li>
+                <li><a href="/contect">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about-header">
+            <h1>About <span class="highlight">ShopEasy</span></h1>
+            <p>Your trusted online shopping destination, bringing you quality products at amazing prices with exceptional service.</p>
+        </section>
+
+        <section class="content-section">
+            <div class="content-block">
+                <h2>Our Story</h2>
+                <p>Founded in 2020, ShopEasy started with a simple mission: to make online shopping easy, affordable, and enjoyable for everyone. What began as a small startup has grown into a trusted platform serving thousands of customers worldwide.</p>
+                <p>We believe that shopping should be convenient, secure, and fun. That's why we've built a platform that combines the best products from trusted sellers with cutting-edge technology to deliver an exceptional shopping experience.</p>
+            </div>
+
+            <div class="content-block">
+                <h2>Why Choose ShopEasy?</h2>
+                <ul>
+                    <li><strong>Quality Products:</strong> We partner with verified sellers to ensure every product meets our high standards.</li>
+                    <li><strong>Competitive Prices:</strong> Our smart pricing algorithm ensures you get the best deals available.</li>
+                    <li><strong>Fast Delivery:</strong> Express shipping options available with tracking on all orders.</li>
+                    <li><strong>Secure Shopping:</strong> Advanced encryption and fraud protection keep your data safe.</li>
+                    <li><strong>24/7 Support:</strong> Our customer service team is always ready to help you.</li>
+                    <li><strong>Easy Returns:</strong> Hassle-free 30-day return policy on all purchases.</li>
+                </ul>
+            </div>
+
+            <div class="content-block">
+                <h2>Our Mission</h2>
+                <p>At ShopEasy, we're committed to revolutionizing the online shopping experience. We strive to connect customers with the products they love while supporting businesses of all sizes.</p>
+
+                <div class="highlight-box">
+                    <h3>Our Values:</h3>
+                    <p><strong>Customer First:</strong> Every decision we make is centered around providing the best possible experience for our customers.</p>
+                    <p><strong>Trust & Transparency:</strong> We believe in honest pricing, clear policies, and transparent communication.</p>
+                    <p><strong>Innovation:</strong> We continuously improve our platform with the latest technology and user feedback.</p>
+                    <p><strong>Sustainability:</strong> We're committed to eco-friendly packaging and supporting sustainable brands.</p>
+                </div>
+
+                <p>Join millions of satisfied customers who have made ShopEasy their go-to destination for online shopping. Experience the difference today!</p>
+            </div>
+
+            <div class="content-block">
+                <h2>Our Numbers</h2>
+                <ul>
+                    <li><strong>1M+ Products:</strong> Extensive catalog across all categories.</li>
+                    <li><strong>500K+ Customers:</strong> Trusted by shoppers worldwide.</li>
+                    <li><strong>10K+ Sellers:</strong> Supporting businesses globally.</li>
+                    <li><strong>99.9% Uptime:</strong> Reliable platform you can count on.</li>
+                    <li><strong>4.8/5 Rating:</strong> Consistently high customer satisfaction.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 ShopEasy. All rights reserved. Your trusted online shopping partner.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            height: 100vh;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes moveGrid {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #581c87 100%);
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            max-height: 95vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body.dark .container {
+            background: rgba(30, 41, 59, 0.95);
+            color: #e2e8f0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 20%, transparent 20%);
+            background-size: 30px 30px;
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 0.85em;
+            font-weight: 300;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(180deg);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            flex-shrink: 0;
+        }
+
+        body.dark .stats {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 12px 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        body.dark .stat-item {
+            background: rgba(51, 65, 85, 0.5);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-item .number {
+            font-size: 1.6em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-item .label {
+            color: #6c757d;
+            font-size: 0.75em;
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        body.dark .stat-item .label {
+            color: #94a3b8;
+        }
+
+        .input-section {
+            padding: 15px;
+            background: rgba(248, 249, 250, 0.5);
+            flex-shrink: 0;
+        }
+
+        body.dark .input-section {
+            background: rgba(15, 23, 42, 0.3);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .input-group input,
+        .input-group select {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px 12px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 0.85em;
+            transition: all 0.3s;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body.dark .input-group input,
+        body.dark .input-group select {
+            background: rgba(51, 65, 85, 0.5);
+            color: #e2e8f0;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 5px 20px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .input-group select {
+            max-width: 100px;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .controls {
+            padding: 12px 15px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 12px;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            font-size: 0.8em;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body.dark .search-box {
+            background: rgba(51, 65, 85, 0.5);
+            color: #e2e8f0;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.75em;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body.dark .filter-btn {
+            background: rgba(51, 65, 85, 0.5);
+            border-color: rgba(148, 163, 184, 0.2);
+            color: #e2e8f0;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 3px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .todo-list {
+            padding: 0 15px 15px;
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .todo-item {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        body.dark .todo-item {
+            background: rgba(51, 65, 85, 0.5);
+        }
+
+        .todo-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s;
+        }
+
+        .todo-item.priority-high::before {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .todo-item.priority-medium::before {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .todo-item.priority-low::before {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .todo-item:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            transform: translateX(5px);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .priority-badge {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.65em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+        }
+
+        .priority-low {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 0.9em;
+            word-break: break-word;
+            font-weight: 400;
+        }
+
+        .todo-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: rgba(102, 126, 234, 0.1);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .edit-btn {
+            color: #f59e0b;
+        }
+
+        .edit-btn:hover {
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .delete-btn {
+            color: #ef4444;
+        }
+
+        .delete-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        body.dark .empty-state {
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.2;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .empty-state h3 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .todo-list::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .todo-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .todo-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+
+        .todo-list::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+            <div class="header-content">
+                <h1><i class="fas fa-rocket"></i> Todo Master</h1>
+                <p>Achieve greatness, one task at a time</p>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="number">
+                    <%= allTodos.length %>
+                </div>
+                <div class="label">Total Tasks</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">
+                    <%= allTodos.filter(t=> !t.completed).length %>
+                </div>
+                <div class="label">Active</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">
+                    <%= allTodos.filter(t=> t.completed).length %>
+                </div>
+                <div class="label">Completed</div>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <form action="/addTodo" method="POST" class="input-group">
+                <input type="text" name="task" placeholder="What's on your mind?" required>
+                <select name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add</button>
+            </form>
+        </div>
+
+        <div class="controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search tasks..."
+                onkeyup="filterTasks()">
+            <button class="filter-btn active" onclick="setFilter('all')">All</button>
+            <button class="filter-btn" onclick="setFilter('active')">Active</button>
+            <button class="filter-btn" onclick="setFilter('completed')">Completed</button>
+            <a href="/clearCompleted" style="text-decoration:none;">
+                <button class="filter-btn" style="background:#ef4444;color:white;border-color:#ef4444">Clear
+                    Done</button>
+            </a>
+        </div>
+
+        <div class="todo-list" id="todoList">
+            <% if (allTodos.length===0) { %>
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>No tasks yet!</h3>
+                    <p>Start adding tasks to boost your productivity</p>
+                </div>
+                <% } else { %>
+                    <% allTodos.forEach(todo=> { %>
+                        <div class="todo-item priority-<%= todo.priority %> <%= todo.completed ? 'completed' : '' %>"
+                            data-status="<%= todo.completed ? 'completed' : 'active' %>">
+                            <a href="/toggleTodo?Id=<%= todo.Id %>" style="text-decoration:none;">
+                                <input type="checkbox" class="checkbox" <%=todo.completed ? 'checked' : '' %>>
+                            </a>
+                            <span class="priority-badge priority-<%= todo.priority %>">
+                                <%= todo.priority %>
+                            </span>
+                            <span class="todo-text">
+                                <%= todo.task %>
+                            </span>
+                            <div class="todo-actions">
+                                <a href="/editTodo?Id=<%= todo.Id %>">
+                                    <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
+                                </a>
+                                <a href="/deleteTodo?Id=<%= todo.Id %>" onclick="return confirm('Delete this task?')">
+                                    <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
+                                </a>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark');
+            document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+        }
+
+        let currentFilter = 'all';
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterTasks();
+        }
+
+        function filterTasks() {
+            const search = document.getElementById('searchBox').value.toLowerCase();
+            const items = document.querySelectorAll('.todo-item');
+
+            items.forEach(item => {
+                const text = item.querySelector('.todo-text').textContent.toLowerCase();
+                const status = item.getAttribute('data-status');
+
+                let show = true;
+
+                if (currentFilter === 'active' && status !== 'active') show = false;
+                if (currentFilter === 'completed' && status !== 'completed') show = false;
+                if (search && !text.includes(search)) show = false;
+
+                item.style.display = show ? 'flex' : 'none';
+            });
+        }
+    </script>
+</body>
+
+</html>

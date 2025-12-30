@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Car - JENISH MOTORS</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./dist/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+        }
+    </style>
+</head>
+
+<body class="form-page">
+    <div class="form-container">
+        <div class="form-header">
+            <div>
+                <h1 class="form-title">Add New Vehicle</h1>
+                <p class="form-subtitle">Complete the form below to add a new luxury vehicle to our collection</p>
+            </div>
+            <i class="fas fa-car-side fa-3x"></i>
+        </div>
+
+        <div class="form-content">
+            <form action="/cars" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Car Name <span>*</span></label>
+                        <input type="text" class="form-input" name="name" placeholder="X5 M50i" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Brand <span>*</span></label>
+                        <select class="form-select" name="brand" required>
+                            <option value="">Select Brand</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Porsche">Porsche</option>
+                            <option value="Ferrari">Ferrari</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Range Rover">Range Rover</option>
+                            <option value="Lamborghini">Lamborghini</option>
+                            <option value="Bentley">Bentley</option>
+                            <option value="Rolls-Royce">Rolls-Royce</option>
+                            <option value="Tesla">Tesla</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Model <span>*</span></label>
+                        <input type="text" class="form-input" name="model" placeholder="M Competition" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Price (₹) <span>*</span></label>
+                        <input type="number" class="form-input" name="price" placeholder="9500000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Year <span>*</span></label>
+                        <input type="number" class="form-input" name="year" placeholder="2024" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Fuel Type</label>
+                        <select class="form-select" name="fuel">
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Electric">Electric</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Plug-in Hybrid">Plug-in Hybrid</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Transmission</label>
+                        <select class="form-select" name="transmission">
+                            <option value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
+                            <option value="Semi-Automatic">Semi-Automatic</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Engine</label>
+                        <input type="text" class="form-input" name="engine" placeholder="4.4L V8 Twin-Turbo">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Color</label>
+                        <input type="text" class="form-input" name="color" placeholder="Mineral Grey Metallic">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" name="status">
+                            <option value="Available">Available</option>
+                            <option value="Reserved">Reserved</option>
+                            <option value="Sold">Sold</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Image URL</label>
+                        <input type="url" class="form-input" name="image" placeholder="https://example.com/car.jpg">
+                        <small style="color: var(--gray); font-size: 12px; margin-top: 5px;">Leave empty to use default
+                            image</small>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" name="description"
+                            placeholder="Describe the vehicle features, condition, and highlights..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/" class="btn-form-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn-form-submit">
+                        <i class="fas fa-plus"></i> Add New Car
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function (e) {
+            const inputs = form.querySelectorAll('[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = '#dc3545';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill all required fields marked with *');
+            }
+        });
+    </script>
+</body>
+
+</html>
