@@ -88,26 +88,26 @@ CAR-ADD-CRUD/
 ## Screenshots
 
 ### Home Page
-![Home Page](/README-IMG/Screenshot%20(1).png)
+![Home Page](README-IMG/Screenshot%20(1).png)
 - Beautiful gradient background
 - Add car form at the top
 - Car cards with hover effects
 - Edit and delete buttons for each car
 
 ### Add Car Form
-![Add Car Form](/README-IMG/Screenshot%20(2).png)
+![Add Car Form](README-IMG/Screenshot%20(2).png)
 - Clean and intuitive form design
 - All required fields validation
 - Responsive layout
 
 ### Car Cards Display
-![Car Cards](/README-IMG/Screenshot%20(3).png)
+![Car Cards](README-IMG/Screenshot%20(3).png)
 - Modern card layout with hover effects
 - Car details beautifully displayed
 - Edit and delete action buttons
 
 ### Edit Page
-![Edit Page](/README-IMG/Screenshot%20(4).png)
+![Edit Page](README-IMG/Screenshot%20(4).png)
 - Pre-filled form with existing car data
 - Update and back buttons
 - Same beautiful design consistency
