@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= video.title %> - JioHotstar
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030b17;
+            --surface-color: #0f172a;
+            --accent-color: #0078ff;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            background: linear-gradient(45deg, #0078ff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            color: var(--text-primary);
+        }
+
+        /* --- Video Player Container --- */
+        .main-container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- Video Details --- */
+        .video-info-section {
+            margin-top: 1.5rem;
+        }
+
+        .video-title-large {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-badge {
+            background: var(--accent-color);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .video-meta-grid {
+            display: flex;
+            gap: 25px;
+            padding: 1.2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-item i {
+            font-size: 1.1rem;
+        }
+
+        /* --- Description --- */
+        .description-container {
+            margin-top: 2rem;
+            background: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .description-container h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .description-container p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* --- Admin Actions --- */
+        .admin-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn-edit {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-delete {
+            background: rgba(255, 68, 68, 0.1);
+            color: #ff4444;
+            border: 1px solid rgba(255, 68, 68, 0.2);
+        }
+
+        .btn-delete:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .video-title-large {
+                font-size: 1.5rem;
+            }
+
+            .video-meta-grid {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .admin-actions {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">JioHotstar</a>
+        <div class="nav-links">
+            <a href="/" class="back-btn"><span>←</span> Back Home</a>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div class="video-wrapper">
+            <% let embedUrl=video.videoUrl; if (video.videoUrl.includes('youtube.com/watch?v=')) {
+                const videoId = video.videoUrl.split(' v=')[1].split(' &')[0];
+                embedUrl=`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; } else if
+                (video.videoUrl.includes('youtu.be/')) { const videoId=video.videoUrl.split('youtu.be/')[1];
+                embedUrl=`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; } %>
+                <iframe src="<%= embedUrl %>" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+
+        <div class="video-info-section">
+            <h1 class="video-title-large">
+                <%= video.title %>
+            </h1>
+            <div class="badge-row">
+                <span class="category-badge">
+                    <%= video.category %>
+                </span>
+                <span style="color: var(--text-secondary); font-size: 0.8rem;">• Premium Content</span>
+            </div>
+
+            <div class="video-meta-grid">
+                <div class="meta-item"><span>⏱️</span>
+                    <%= video.duration %>
+                </div>
+                <div class="meta-item"><span>🌐</span>
+                    <%= video.language %>
+                </div>
+                <div class="meta-item"><span>👁️</span> 1.2M Views</div>
+                <div class="meta-item"><span>📅</span>
+                    <%= new Date(video.createdAt).toLocaleDateString('en-IN', { day: 'numeric' , month: 'short' ,
+                        year: 'numeric' }) %>
+                </div>
+            </div>
+
+            <div class="description-container">
+                <h3>About this Story</h3>
+                <p>
+                    <%= video.description %>
+                </p>
+            </div>
+
+            <div class="admin-actions">
+                <a href="/edit-video/<%= video._id %>" class="btn btn-edit">Edit Metadata</a>
+                <a href="/delete-video/<%= video._id %>" class="btn btn-delete"
+                    onclick="return confirm('Pakka delete karna hai bhai? Wapas nahi aayega!')">Delete Video</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

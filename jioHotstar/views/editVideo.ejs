@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit: <%= video.title %> | JioHotstar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030b17;
+            --surface-color: #0f172a;
+            --accent-color: #0078ff;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --glass: rgba(15, 23, 42, 0.8);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background: radial-gradient(circle at bottom left, #0f172a 0%, #030b17 100%);
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            padding: 1.2rem 5%;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            background: linear-gradient(45deg, #0078ff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--text-primary);
+        }
+
+        /* --- Main Layout --- */
+        .main-content {
+            padding: 3rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-card {
+            background: var(--surface-color);
+            width: 100%;
+            max-width: 800px;
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* --- Input Styling --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(0, 120, 255, 0.15);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* --- Thumbnail Preview Area --- */
+        .preview-box {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border: 1px dashed var(--border);
+        }
+
+        .current-img {
+            width: 160px;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .preview-info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .preview-info span {
+            font-size: 0.75rem;
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        /* --- Grid --- */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* --- Buttons --- */
+        .action-area {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            text-align: center;
+            border: none;
+        }
+
+        .btn-save {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 120, 255, 0.4);
+        }
+
+        .btn-preview {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn-preview:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        @media (max-width: 600px) {
+
+            .form-row,
+            .action-area {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .current-img {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">JioHotstar</a>
+        <div class="nav-links">
+            <a href="/watch/<%= video._id %>" class="back-btn"><span>←</span> Discard Changes</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Edit Video Metadata</h2>
+                <p>Modify the details of <strong>"<%= video.title %>"</strong></p>
+            </div>
+
+            <form action="/edit-video/<%= video._id %>" method="POST" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label>Video Title</label>
+                    <input type="text" name="title" class="form-control" value="<%= video.title %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" class="form-control" required><%= video.description %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Source URL</label>
+                    <input type="url" name="videoUrl" class="form-control" value="<%= video.videoUrl %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Thumbnail Management</label>
+                    <% if (video.thumbnail) { %>
+                        <div class="preview-box">
+                            <img src="<%= video.thumbnail %>" class="current-img" alt="Current">
+                            <div class="preview-info">
+                                <p>Current Cover Photo</p>
+                                <span>Active Thumbnail</span>
+                            </div>
+                        </div>
+                        <% } %>
+                            <input type="file" name="thumbnail" class="form-control" accept="image/*"
+                                style="padding: 0.6rem;">
+                            <span style="color: var(--text-secondary); font-size: 0.75rem; display: block; mt: 5px;">
+                                Tip: Upload a new file only if you want to replace the current one.
+                            </span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category" class="form-control" style="background-color: #1e293b;" required>
+                            <% const cats=['Movies', 'TV Shows' , 'Sports' , 'News' , 'Kids' , 'Documentary' , 'Music'
+                                ]; %>
+                                <% cats.forEach(cat=> { %>
+                                    <option value="<%= cat %>" <%=video.category===cat ? 'selected' : '' %>>
+                                        <%= cat %>
+                                    </option>
+                                    <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Content Language</label>
+                        <input type="text" name="language" class="form-control" value="<%= video.language %>" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Runtime (Duration)</label>
+                        <input type="text" name="duration" class="form-control" value="<%= video.duration %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Age Rating</label>
+                        <input type="text" class="form-control" value="U/A 13+" readonly
+                            style="opacity: 0.6; cursor: not-allowed;">
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <button type="submit" class="btn btn-save">Update Content</button>
+                    <a href="/watch/<%= video._id %>" class="btn btn-preview">Preview</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Entrance animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.querySelector('.form-card');
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.98) translateY(20px)';
+
+            setTimeout(() => {
+                card.style.transition = 'all 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1) translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
