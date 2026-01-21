@@ -1,0 +1,243 @@
+<%- include('header') %>
+
+<div class="page-header fade-in">
+    <h1 class="page-title">Edit Administrator</h1>
+    <p class="page-subtitle">Update administrator information and profile</p>
+</div>
+
+<div class="card fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-user-edit"></i>
+            Editing: <%= singleAdmin.fname %> <%= singleAdmin.lname %>
+        </h3>
+    </div>
+    <div class="card-body">
+        <form action="/updateAdmin/<%= singleAdmin._id %>" method="POST" enctype="multipart/form-data">
+            
+            <!-- Current Profile Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h4 class="section-title">Current Profile</h4>
+            </div>
+            
+            <div style="text-align: center; padding: 32px; background: linear-gradient(135deg, var(--light), rgba(99, 102, 241, 0.05)); border-radius: var(--radius-lg); margin-bottom: 32px; border: 2px solid var(--border);">
+                <img src="/<%= singleAdmin.profile_image %>" alt="<%= singleAdmin.fname %>" 
+                     style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--white); box-shadow: var(--shadow-lg); margin-bottom: 16px;"
+                     onerror="this.src='https://ui-avatars.com/api/?name=<%= singleAdmin.fname %>+<%= singleAdmin.lname %>&background=6366f1&color=fff&size=120'">
+                <h5 style="color: var(--dark); font-weight: 700; margin-bottom: 8px; font-size: 20px;"><%= singleAdmin.fname %> <%= singleAdmin.lname %></h5>
+                <p style="color: var(--gray); font-size: 14px; margin: 0;">
+                    <i class="fas fa-envelope" style="margin-right: 8px;"></i>
+                    <%= singleAdmin.email %>
+                </p>
+            </div>
+
+            <!-- Update Profile Picture Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <h4 class="section-title">Update Profile Picture</h4>
+            </div>
+            
+            <div class="file-upload-container">
+                <div class="file-upload-area" id="fileUploadArea">
+                    <div class="file-upload-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="file-upload-text">Upload new profile picture</div>
+                    <div class="file-upload-hint">Leave empty to keep current image • PNG, JPG, GIF up to 5MB</div>
+                    <input type="file" name="profile_image" class="file-upload-input" id="profileImage" accept="image/*">
+                </div>
+                <div class="file-preview" id="filePreview">
+                    <button type="button" class="file-remove-btn" id="removeFile">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <img class="file-preview-image" id="previewImage" alt="Preview">
+                    <div class="file-preview-info">
+                        <div class="file-preview-name" id="fileName"></div>
+                        <div class="file-preview-size" id="fileSize"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h4 class="section-title">Personal Information</h4>
+            </div>
+            
+            <div class="grid grid-2">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-user" style="color: var(--primary); margin-right: 8px;"></i>
+                        First Name
+                    </label>
+                    <input type="text" name="fname" class="form-input" value="<%= singleAdmin.fname %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-user" style="color: var(--primary); margin-right: 8px;"></i>
+                        Last Name
+                    </label>
+                    <input type="text" name="lname" class="form-input" value="<%= singleAdmin.lname %>" required>
+                </div>
+            </div>
+
+            <!-- Account Information Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h4 class="section-title">Account Credentials</h4>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-envelope" style="color: var(--primary); margin-right: 8px;"></i>
+                    Email Address
+                </label>
+                <input type="email" name="email" class="form-input" value="<%= singleAdmin.email %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-lock" style="color: var(--primary); margin-right: 8px;"></i>
+                    Password
+                </label>
+                <input type="password" name="password" class="form-input" value="<%= singleAdmin.password %>" required>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h4 class="section-title">Additional Details</h4>
+            </div>
+            
+            <div class="grid grid-2">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 8px;"></i>
+                        City
+                    </label>
+                    <input type="text" name="city" class="form-input" value="<%= singleAdmin.city %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-venus-mars" style="color: var(--primary); margin-right: 8px;"></i>
+                        Gender
+                    </label>
+                    <select name="gender" class="form-select" required>
+                        <option value="Male" <%= singleAdmin.gender === 'Male' ? 'selected' : '' %>>👨 Male</option>
+                        <option value="Female" <%= singleAdmin.gender === 'Female' ? 'selected' : '' %>>👩 Female</option>
+                        <option value="Other" <%= singleAdmin.gender === 'Other' ? 'selected' : '' %>>🧑 Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div style="border-top: 2px solid var(--border); padding-top: 32px; margin-top: 32px;">
+                <div class="flex gap-2 justify-center">
+                    <button type="submit" class="btn btn-primary" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-save"></i>
+                        Update Administrator
+                    </button>
+                    <a href="/viewAdmin" class="btn btn-outline" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Modern File Upload Handler for Edit Page
+document.addEventListener('DOMContentLoaded', function() {
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const fileInput = document.getElementById('profileImage');
+    const filePreview = document.getElementById('filePreview');
+    const previewImage = document.getElementById('previewImage');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const removeBtn = document.getElementById('removeFile');
+
+    // Drag and drop handlers
+    fileUploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.classList.add('dragover');
+    });
+
+    fileUploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+    });
+
+    fileUploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleFile(files[0]);
+        }
+    });
+
+    // File input change
+    fileInput.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+        }
+    });
+
+    // Remove file
+    removeBtn.addEventListener('click', function() {
+        fileInput.value = '';
+        filePreview.classList.remove('show');
+        fileUploadArea.style.display = 'block';
+    });
+
+    function handleFile(file) {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            return;
+        }
+
+        // Validate file size (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size must be less than 5MB');
+            return;
+        }
+
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            filePreview.classList.add('show');
+            fileUploadArea.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+});
+</script>
+
+<%- include('footer') %>

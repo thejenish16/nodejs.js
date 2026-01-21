@@ -22,5 +22,5 @@ app.listen(PORT, (err) => {
         console.error("Server startup error:", err);
         return;
     }
-    console.log(`✅ Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });

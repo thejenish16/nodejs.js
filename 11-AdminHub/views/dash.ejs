@@ -1,0 +1,628 @@
+<%- include('header') %>
+
+<div class="dashboard-hero">
+    <div class="hero-content">
+        <% if (typeof admin !== 'undefined' && admin) { %>
+            <h1><i class="fas fa-tachometer-alt"></i> Welcome <%= admin.fname %> <%= admin.lname %> Sir</h1>
+        <% } else { %>
+            <h1><i class="fas fa-tachometer-alt"></i> Welcome Admin Sir</h1>
+        <% } %>
+        <p>Manage your users with style and efficiency</p>
+    </div>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <div class="stat-number"><%= allAdmin ? allAdmin.length : 0 %></div>
+            <div class="stat-text">Total Users</div>
+        </div>
+        <div class="hero-stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-text">Active</div>
+        </div>
+    </div>
+</div>
+
+<div class="stats-container">
+    <div class="stat-card primary">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-value"><%= allAdmin ? allAdmin.length : 0 %></div>
+            <div class="stat-label">Total Users</div>
+            <div class="stat-change">+12% from last month</div>
+        </div>
+    </div>
+    
+    <div class="stat-card success">
+        <div class="stat-icon">
+            <i class="fas fa-user-check"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-value"><%= allAdmin ? Math.floor(allAdmin.length * 0.85) : 0 %></div>
+            <div class="stat-label">Active Users</div>
+            <div class="stat-change">+8% from last week</div>
+        </div>
+    </div>
+    
+    <div class="stat-card warning">
+        <div class="stat-icon">
+            <i class="fas fa-user-plus"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-value"><%= allAdmin ? Math.floor(allAdmin.length * 0.15) : 0 %></div>
+            <div class="stat-label">New Users</div>
+            <div class="stat-change">+25% this week</div>
+        </div>
+    </div>
+    
+    <div class="stat-card danger">
+        <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-value">98.5%</div>
+            <div class="stat-label">System Health</div>
+            <div class="stat-change">Excellent</div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3><i class="fas fa-chart-bar"></i> User Analytics</h3>
+            <div class="card-actions">
+                <button class="btn-icon"><i class="fas fa-refresh"></i></button>
+                <button class="btn-icon"><i class="fas fa-expand"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container">
+                <div class="chart-bar">
+                    <div class="bar" style="height: 80%;">
+                        <span class="bar-label">Mon</span>
+                        <span class="bar-value">24</span>
+                    </div>
+                    <div class="bar" style="height: 65%;">
+                        <span class="bar-label">Tue</span>
+                        <span class="bar-value">18</span>
+                    </div>
+                    <div class="bar" style="height: 90%;">
+                        <span class="bar-label">Wed</span>
+                        <span class="bar-value">32</span>
+                    </div>
+                    <div class="bar" style="height: 75%;">
+                        <span class="bar-label">Thu</span>
+                        <span class="bar-value">28</span>
+                    </div>
+                    <div class="bar" style="height: 95%;">
+                        <span class="bar-label">Fri</span>
+                        <span class="bar-value">35</span>
+                    </div>
+                    <div class="bar" style="height: 60%;">
+                        <span class="bar-label">Sat</span>
+                        <span class="bar-value">15</span>
+                    </div>
+                    <div class="bar" style="height: 45%;">
+                        <span class="bar-label">Sun</span>
+                        <span class="bar-value">12</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3><i class="fas fa-bell"></i> Recent Activity</h3>
+            <span class="badge">Live</span>
+        </div>
+        <div class="card-body">
+            <div class="activity-feed">
+                <div class="activity-item">
+                    <div class="activity-avatar success">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">New user registered</div>
+                        <div class="activity-desc">jenishpardava16@gmail.com joined the platform</div>
+                        <div class="activity-time">2 minutes ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-avatar primary">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Profile updated</div>
+                        <div class="activity-desc">User changed profile picture</div>
+                        <div class="activity-time">15 minutes ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-avatar warning">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">System backup</div>
+                        <div class="activity-desc">Automated backup completed successfully</div>
+                        <div class="activity-time">1 hour ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-avatar danger">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">User deleted</div>
+                        <div class="activity-desc">Inactive user account removed</div>
+                        <div class="activity-time">3 hours ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
+        </div>
+        <div class="card-body">
+            <div class="quick-actions">
+                <a href="/add" class="action-btn primary">
+                    <div class="action-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="action-content">
+                        <div class="action-title">Add User</div>
+                        <div class="action-desc">Create new user account</div>
+                    </div>
+                </a>
+                
+                <a href="/list" class="action-btn success">
+                    <div class="action-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="action-content">
+                        <div class="action-title">View Users</div>
+                        <div class="action-desc">Manage all users</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="action-btn warning">
+                    <div class="action-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="action-content">
+                        <div class="action-title">Analytics</div>
+                        <div class="action-desc">View detailed reports</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="action-btn danger">
+                    <div class="action-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="action-content">
+                        <div class="action-title">Settings</div>
+                        <div class="action-desc">System configuration</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3><i class="fas fa-crown"></i> Top Users</h3>
+            <a href="/list" class="view-all">View All</a>
+        </div>
+        <div class="card-body">
+            <div class="user-list">
+                <% if (allAdmin && allAdmin.length > 0) { %>
+                    <% allAdmin.slice(0, 5).forEach((user, index) => { %>
+                        <div class="user-item">
+                            <div class="user-rank">#<%= index + 1 %></div>
+                            <div class="user-avatar">
+                                <img src="/uploads/<%= user.profile %>" alt="<%= user.fname %>" 
+                                     onerror="this.src='/img/default-avatar.png'">
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name"><%= user.fname %> <%= user.lname %></div>
+                                <div class="user-email"><%= user.email %></div>
+                            </div>
+                            <div class="user-badge">
+                                <span class="badge <%= user.gender.toLowerCase() %>"><%= user.gender %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>No users found</p>
+                        <a href="/add" class="btn btn-primary">Add First User</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dashboard-hero {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-content p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.hero-stat {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.stat-text {
+    opacity: 0.8;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-left: 4px solid;
+}
+
+.stat-card.primary { border-left-color: var(--primary); }
+.stat-card.success { border-left-color: var(--success); }
+.stat-card.warning { border-left-color: var(--warning); }
+.stat-card.danger { border-left-color: var(--danger); }
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-card.primary .stat-icon { background: var(--primary); }
+.stat-card.success .stat-icon { background: var(--success); }
+.stat-card.warning .stat-icon { background: var(--warning); }
+.stat-card.danger .stat-icon { background: var(--danger); }
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+.stat-change {
+    font-size: 0.875rem;
+    color: var(--success);
+    font-weight: 500;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--light);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--secondary);
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    background: var(--success);
+    color: white;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.chart-container {
+    padding: 1rem 0;
+}
+
+.chart-bar {
+    display: flex;
+    align-items: end;
+    gap: 1rem;
+    height: 200px;
+    padding: 0 1rem;
+}
+
+.bar {
+    flex: 1;
+    background: linear-gradient(to top, var(--primary), var(--primary-dark));
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: 500;
+}
+
+.bar-label {
+    position: absolute;
+    bottom: -25px;
+    color: var(--secondary);
+    font-size: 0.875rem;
+}
+
+.bar-value {
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+}
+
+.activity-feed {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+}
+
+.activity-avatar.primary { background: var(--primary); }
+.activity-avatar.success { background: var(--success); }
+.activity-avatar.warning { background: var(--warning); }
+.activity-avatar.danger { background: var(--danger); }
+
+.activity-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.activity-desc {
+    color: var(--secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.activity-time {
+    color: var(--secondary);
+    font-size: 0.75rem;
+}
+
+.quick-actions {
+    display: grid;
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 4px solid;
+}
+
+.action-btn.primary { 
+    background: rgba(59, 130, 246, 0.1);
+    border-left-color: var(--primary);
+}
+.action-btn.success { 
+    background: rgba(16, 185, 129, 0.1);
+    border-left-color: var(--success);
+}
+.action-btn.warning { 
+    background: rgba(245, 158, 11, 0.1);
+    border-left-color: var(--warning);
+}
+.action-btn.danger { 
+    background: rgba(239, 68, 68, 0.1);
+    border-left-color: var(--danger);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.action-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.action-btn.primary .action-icon { background: var(--primary); }
+.action-btn.success .action-icon { background: var(--success); }
+.action-btn.warning .action-icon { background: var(--warning); }
+.action-btn.danger .action-icon { background: var(--danger); }
+
+.action-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.action-desc {
+    color: var(--secondary);
+    font-size: 0.875rem;
+}
+
+.view-all {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.user-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.user-item:last-child {
+    border-bottom: none;
+}
+
+.user-rank {
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 30px;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.user-email {
+    color: var(--secondary);
+    font-size: 0.875rem;
+}
+
+.badge.male { background: var(--primary); }
+.badge.female { background: var(--danger); }
+.badge.other { background: var(--warning); }
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--secondary);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .dashboard-hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<%- include('footer') %>

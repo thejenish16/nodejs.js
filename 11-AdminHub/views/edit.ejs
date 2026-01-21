@@ -1,0 +1,727 @@
+<%- include('header') %>
+
+<div class="edit-hero">
+    <div class="hero-content">
+        <h1><i class="fas fa-user-edit"></i> Edit User Profile</h1>
+        <p>Update <%= singleAdmin.fname %> <%= singleAdmin.lname %>'s information</p>
+    </div>
+    <div class="hero-avatar">
+        <img src="/uploads/<%= singleAdmin.profile %>" alt="<%= singleAdmin.fname %>" 
+             onerror="this.src='https://ui-avatars.com/api/?name=<%= singleAdmin.fname %>+<%= singleAdmin.lname %>&background=3b82f6&color=fff'">
+        <div class="avatar-badge">
+            <i class="fas fa-edit"></i>
+        </div>
+    </div>
+</div>
+
+<div class="edit-container">
+    <div class="edit-card">
+        <div class="edit-header">
+            <div class="user-summary">
+                <div class="summary-item">
+                    <i class="fas fa-envelope"></i>
+                    <span><%= singleAdmin.email %></span>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-phone"></i>
+                    <span><%= singleAdmin.phone %></span>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span><%= singleAdmin.city %></span>
+                </div>
+            </div>
+        </div>
+        
+        <form method="post" action="/update/<%= singleAdmin._id %>" enctype="multipart/form-data" class="edit-form">
+            <div class="form-section">
+                <h3><i class="fas fa-id-card"></i> Personal Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user"></i>
+                            First Name
+                        </label>
+                        <input type="text" name="fname" class="form-input" value="<%= singleAdmin.fname %>" required>
+                        <div class="input-highlight"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user"></i>
+                            Last Name
+                        </label>
+                        <input type="text" name="lname" class="form-input" value="<%= singleAdmin.lname %>" required>
+                        <div class="input-highlight"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-envelope"></i> Contact Details</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </label>
+                        <input type="email" name="email" class="form-input" value="<%= singleAdmin.email %>" required>
+                        <div class="input-highlight"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-phone"></i>
+                            Phone Number
+                        </label>
+                        <input type="tel" name="phone" class="form-input" value="<%= singleAdmin.phone %>" required>
+                        <div class="input-highlight"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-lock"></i> Security</h3>
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-lock"></i>
+                        Password
+                        <span class="optional-badge">Leave blank to keep current</span>
+                    </label>
+                    <div class="password-input">
+                        <input type="password" name="password" class="form-input" placeholder="Enter new password (optional)" id="passwordInput">
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+                    <div class="input-highlight"></div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-info-circle"></i> Personal Details</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-venus-mars"></i>
+                            Gender
+                        </label>
+                        <div class="radio-group">
+                            <label class="radio-option <%= singleAdmin.gender === 'Male' ? 'selected' : '' %>">
+                                <input type="radio" name="gender" value="Male" <%= singleAdmin.gender === 'Male' ? 'checked' : '' %> required>
+                                <span class="radio-custom"></span>
+                                <i class="fas fa-mars"></i>
+                                Male
+                            </label>
+                            <label class="radio-option <%= singleAdmin.gender === 'Female' ? 'selected' : '' %>">
+                                <input type="radio" name="gender" value="Female" <%= singleAdmin.gender === 'Female' ? 'checked' : '' %> required>
+                                <span class="radio-custom"></span>
+                                <i class="fas fa-venus"></i>
+                                Female
+                            </label>
+                            <label class="radio-option <%= singleAdmin.gender === 'Other' ? 'selected' : '' %>">
+                                <input type="radio" name="gender" value="Other" <%= singleAdmin.gender === 'Other' ? 'checked' : '' %> required>
+                                <span class="radio-custom"></span>
+                                <i class="fas fa-genderless"></i>
+                                Other
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-map-marker-alt"></i>
+                            City
+                        </label>
+                        <input type="text" name="city" class="form-input" value="<%= singleAdmin.city %>" required>
+                        <div class="input-highlight"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-heart"></i> Interests & Hobbies</h3>
+                <div class="form-group">
+                    <label class="form-label">Select your interests</label>
+                    <div class="checkbox-grid">
+                        <% 
+                        const hobbies = ['Reading', 'Gaming', 'Sports', 'Music', 'Travel', 'Photography', 'Cooking', 'Art'];
+                        const userHobbies = singleAdmin.hobby || [];
+                        %>
+                        <% hobbies.forEach(hobby => { %>
+                            <label class="checkbox-option <%= userHobbies.includes(hobby) ? 'selected' : '' %>">
+                                <input type="checkbox" name="hobby" value="<%= hobby %>" <%= userHobbies.includes(hobby) ? 'checked' : '' %>>
+                                <span class="checkbox-custom">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <i class="fas fa-<%= hobby === 'Reading' ? 'book' : hobby === 'Gaming' ? 'gamepad' : hobby === 'Sports' ? 'futbol' : hobby === 'Music' ? 'music' : hobby === 'Travel' ? 'plane' : hobby === 'Photography' ? 'camera' : hobby === 'Cooking' ? 'utensils' : 'palette' %>"></i>
+                                <%= hobby %>
+                            </label>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-image"></i> Profile Picture</h3>
+                <div class="form-group">
+                    <div class="image-upload-section">
+                        <div class="current-image">
+                            <img src="/uploads/<%= singleAdmin.profile %>" alt="Current Profile" id="currentImage"
+                                 onerror="this.src='https://ui-avatars.com/api/?name=<%= singleAdmin.fname %>+<%= singleAdmin.lname %>&background=3b82f6&color=fff'">
+                            <div class="image-overlay">
+                                <button type="button" class="change-image-btn" onclick="document.getElementById('fileInput').click()">
+                                    <i class="fas fa-camera"></i>
+                                    Change Photo
+                                </button>
+                            </div>
+                        </div>
+                        <input type="file" name="profile" class="file-input" accept="image/*" id="fileInput">
+                        <div class="upload-info">
+                            <p><i class="fas fa-info-circle"></i> Leave empty to keep current image</p>
+                            <p>Supported formats: JPG, PNG, GIF (Max: 5MB)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-comment"></i> About</h3>
+                <div class="form-group">
+                    <label class="form-label">Tell us about yourself</label>
+                    <textarea name="about" class="form-textarea" rows="4" placeholder="Write a brief description..."><%= singleAdmin.about || '' %></textarea>
+                    <div class="input-highlight"></div>
+                    <div class="char-counter">
+                        <span id="charCount">0</span>/500 characters
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-update">
+                    <i class="fas fa-save"></i>
+                    <span>Update Profile</span>
+                    <div class="btn-loader" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </button>
+                <a href="/list" class="btn-cancel">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+                <a href="/delete/<%= singleAdmin._id %>" class="btn-delete" onclick="return confirm('Are you sure you want to delete this user?')">
+                    <i class="fas fa-trash"></i>
+                    Delete User
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.edit-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.hero-content p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.hero-avatar {
+    position: relative;
+}
+
+.hero-avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.avatar-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: 3px solid white;
+}
+
+.edit-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.edit-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.edit-header {
+    background: linear-gradient(135deg, var(--light), white);
+    padding: 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.user-summary {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+.summary-item i {
+    color: var(--primary);
+}
+
+.edit-form {
+    padding: 2rem;
+}
+
+.form-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.form-section h3 {
+    color: var(--primary);
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.optional-badge {
+    background: var(--warning);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-left: auto;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s;
+}
+
+.form-input:focus + .input-highlight,
+.form-textarea:focus + .input-highlight {
+    width: 100%;
+}
+
+.password-input {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.radio-option,
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.radio-option.selected,
+.checkbox-option.selected,
+.radio-option:hover,
+.checkbox-option:hover {
+    border-color: var(--primary);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.radio-option input,
+.checkbox-option input {
+    display: none;
+}
+
+.radio-custom,
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.checkbox-custom {
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radio-option input:checked + .radio-custom {
+    border-color: var(--primary);
+    background: var(--primary);
+}
+
+.radio-option input:checked + .radio-custom::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox-option input:checked + .checkbox-custom {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+}
+
+.checkbox-custom i {
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.checkbox-option input:checked + .checkbox-custom i {
+    opacity: 1;
+}
+
+.image-upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.current-image {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.current-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.current-image:hover .image-overlay {
+    opacity: 1;
+}
+
+.change-image-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-info {
+    text-align: center;
+    color: var(--secondary);
+    font-size: 0.875rem;
+}
+
+.upload-info p {
+    margin-bottom: 0.25rem;
+}
+
+.char-counter {
+    text-align: right;
+    color: var(--secondary);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+}
+
+.btn-update {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.btn-update:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+}
+
+.btn-cancel {
+    background: var(--light);
+    color: var(--secondary);
+    border: 2px solid var(--border);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+    border-color: var(--secondary);
+    color: var(--dark);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, var(--danger), #dc2626);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+}
+
+@media (max-width: 768px) {
+    .edit-hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .user-summary {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+    }
+    
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+function togglePassword() {
+    const input = document.getElementById('passwordInput');
+    const icon = document.getElementById('passwordIcon');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+    }
+}
+
+// File preview
+document.getElementById('fileInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('currentImage').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Character counter
+const textarea = document.querySelector('textarea[name="about"]');
+const charCount = document.getElementById('charCount');
+
+function updateCharCount() {
+    const count = textarea.value.length;
+    charCount.textContent = count;
+    
+    if (count > 500) {
+        charCount.style.color = 'var(--danger)';
+    } else if (count > 400) {
+        charCount.style.color = 'var(--warning)';
+    } else {
+        charCount.style.color = 'var(--secondary)';
+    }
+}
+
+textarea.addEventListener('input', updateCharCount);
+updateCharCount();
+
+// Form submission with loading
+document.querySelector('.edit-form').addEventListener('submit', function() {
+    const btn = document.querySelector('.btn-update');
+    const btnText = btn.querySelector('span');
+    const btnLoader = btn.querySelector('.btn-loader');
+    
+    btnText.style.display = 'none';
+    btnLoader.style.display = 'block';
+    btn.disabled = true;
+});
+</script>
+
+<%- include('footer') %>
