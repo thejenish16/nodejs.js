@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff - Elite Automotive Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <div class="grain-overlay"></div>
+    <div class="admin-container">
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ELITE</span>
+                    <span class="brand-sub">Automotive</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    <span>Dashboard</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#inventory" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-car"></i></div>
+                    <span>Inventory</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#leads" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-users"></i></div>
+                    <span>Leads & CRM</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#sales" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    <span>Sales & Finance</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#staff" class="nav-item active">
+                    <div class="nav-icon"><i class="fas fa-user-tie"></i></div>
+                    <span>Staff</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#settings" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-sliders-h"></i></div>
+                    <span>Settings</span>
+                    <div class="nav-glow"></div>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar glass-panel">
+                <div class="search-box glass-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search vehicles, leads, sales...">
+                </div>
+                <div class="header-actions">
+                    <div class="notification-wrapper">
+                        <button class="icon-btn glass-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="pulse-badge">3</span>
+                        </button>
+                    </div>
+                    <div class="user-profile glass-btn">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=1a1a1a&color=d4af37"
+                            alt="User">
+                        <div class="user-info">
+                            <span class="user-name">Admin User</span>
+                            <span class="user-role">Manager</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page active">
+                <div class="page-header">
+                    <div>
+                        <button class="btn-secondary" onclick="window.location.href='index.html#staff'" style="margin-bottom: 16px;">
+                            <i class="fas fa-arrow-left"></i> Back to Staff
+                        </button>
+                        <h1 class="page-title">Add New Staff Member</h1>
+                        <p class="page-subtitle">Enter staff member details</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel floating" style="padding: 32px; border-radius: 20px;">
+                    <form id="addStaffForm">
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-user"></i> Personal Information</h3>
+                            <div class="form-grid-3d">
+                                <div class="form-group-3d">
+                                    <label>Full Name</label>
+                                    <input type="text" class="glass-input" placeholder="e.g., John Smith" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Email</label>
+                                    <input type="email" class="glass-input" placeholder="john@example.com" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Phone Number</label>
+                                    <input type="tel" class="glass-input" placeholder="+91 98765 43210" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Date of Birth</label>
+                                    <input type="date" class="glass-input" required>
+                                </div>
+                                <div class="form-group-3d full-width">
+                                    <label>Address</label>
+                                    <input type="text" class="glass-input" placeholder="Complete address" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-briefcase"></i> Employment Details</h3>
+                            <div class="form-grid-3d">
+                                <div class="form-group-3d">
+                                    <label>Employee ID</label>
+                                    <input type="text" class="glass-input" placeholder="EMP-001" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Role/Position</label>
+                                    <select class="glass-select" required>
+                                        <option value="">Select Role</option>
+                                        <option>Sales Manager</option>
+                                        <option>Sales Representative</option>
+                                        <option>Finance Manager</option>
+                                        <option>Service Advisor</option>
+                                        <option>Receptionist</option>
+                                    </select>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Department</label>
+                                    <select class="glass-select" required>
+                                        <option value="">Select Department</option>
+                                        <option>Sales</option>
+                                        <option>Finance</option>
+                                        <option>Service</option>
+                                        <option>Administration</option>
+                                    </select>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Joining Date</label>
+                                    <input type="date" class="glass-input" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Employment Type</label>
+                                    <select class="glass-select" required>
+                                        <option value="">Select Type</option>
+                                        <option>Full-time</option>
+                                        <option>Part-time</option>
+                                        <option>Contract</option>
+                                    </select>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Reporting Manager</label>
+                                    <input type="text" class="glass-input" placeholder="Manager name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-rupee-sign"></i> Salary & Compensation</h3>
+                            <div class="form-grid-3d">
+                                <div class="form-group-3d">
+                                    <label>Base Salary (Monthly)</label>
+                                    <input type="number" class="glass-input" placeholder="50000" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Commission Rate (%)</label>
+                                    <input type="number" class="glass-input" placeholder="5" step="0.1">
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Bonus Structure</label>
+                                    <select class="glass-select">
+                                        <option value="">Select Bonus Type</option>
+                                        <option>Performance Based</option>
+                                        <option>Fixed Monthly</option>
+                                        <option>Quarterly</option>
+                                        <option>Annual</option>
+                                    </select>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Bank Account Number</label>
+                                    <input type="text" class="glass-input" placeholder="Account number">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-id-card"></i> Documents & Verification</h3>
+                            <div class="form-grid-3d">
+                                <div class="form-group-3d">
+                                    <label>Aadhar Number</label>
+                                    <input type="text" class="glass-input" placeholder="XXXX XXXX XXXX">
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>PAN Number</label>
+                                    <input type="text" class="glass-input" placeholder="ABCDE1234F">
+                                </div>
+                                <div class="form-group-3d full-width">
+                                    <label>Upload Documents</label>
+                                    <div class="file-upload-3d glass-panel">
+                                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                        <h4>Upload ID proof, certificates</h4>
+                                        <p>or click to browse</p>
+                                        <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-user-circle"></i> Profile Picture</h3>
+                            <div class="file-upload-3d glass-panel">
+                                <div class="upload-icon"><i class="fas fa-camera"></i></div>
+                                <h4>Upload profile photo</h4>
+                                <p>JPG, PNG (Max 5MB)</p>
+                                <input type="file" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-toggle-on"></i> Access & Permissions</h3>
+                            <div class="website-toggle-group">
+                                <div class="toggle-info">
+                                    <h4>System Access</h4>
+                                    <p>Grant access to management system</p>
+                                </div>
+                                <label class="premium-toggle large">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider-3d"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+                            <button type="button" class="btn-secondary" onclick="window.location.href='index.html#staff'">Cancel</button>
+                            <button type="submit" class="btn-premium">
+                                <i class="fas fa-save"></i>
+                                <span>Add Staff Member</span>
+                                <div class="btn-glow"></div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // File upload preview
+        document.querySelectorAll('.file-upload-3d input[type="file"]').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const files = e.target.files;
+                const parent = e.target.closest('.file-upload-3d');
+                if (files.length > 0 && parent) {
+                    parent.querySelector('h4').textContent = `${files.length} file(s) selected`;
+                    parent.style.borderColor = '#d4af37';
+                    parent.style.background = 'rgba(212, 175, 55, 0.1)';
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('addStaffForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Staff member added successfully!');
+            window.location.href = 'index.html#staff';
+        });
+
+        // Smooth page load animation
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Navbar scroll transparency
+        window.addEventListener('scroll', () => {
+            const topBar = document.querySelector('.top-bar');
+            if (topBar) {
+                if (window.scrollY > 50) {
+                    topBar.style.background = 'rgba(252, 252, 251, 0.7)';
+                } else {
+                    topBar.style.background = 'rgba(252, 252, 251, 0.85)';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

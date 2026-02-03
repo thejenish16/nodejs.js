@@ -1,16 +1,25 @@
 const Admin = require('../model/admin.model')
 const nodemailer = require('nodemailer');
 const fs = require('fs');
+const path = require('path');
 
 
 module.exports.dashborad = async (req, res) => {
-    const admin = req.admin;
-    return res.render('dashboard', { admin, currentPath: req.path });
+    try {
+        const admin = req.user;
+        let allAdmin = await Admin.find();
+        allAdmin = allAdmin.filter((subadmin) => subadmin.email != admin.email);
+        return res.render('dashboard', { admin, allAdmin, currentPath: req.path });
+    } catch (error) {
+        console.log("Something went wrong");
+        console.log("Error : ", error);
+        return res.redirect('/');
+    }
 }
 
 module.exports.viewadmin = async (req, res) => {
     try {
-        const admin = req.admin;
+        const admin = req.user;
         let allAdmin = await Admin.find();
         allAdmin = allAdmin.filter((subadmin) => subadmin.email != admin.email);
         return res.render('viewAdmin', { allAdmin, admin, currentPath: req.path })
@@ -22,12 +31,12 @@ module.exports.viewadmin = async (req, res) => {
 }
 
 module.exports.addAdminPage = async (req, res) => {
-    const admin = req.admin;
+    const admin = req.user;
     return res.render('addAdmin', { admin, currentPath: req.path })
 }
 
 module.exports.profile = async (req, res) => {
-    const admin = req.admin;
+    const admin = req.user;
     return res.render('Profile/Profile', { admin, currentPath: req.path })
 }
 
@@ -41,14 +50,20 @@ module.exports.verifyEmail = async (req, res) => {
             return res.redirect('/');
         }
 
-        let transporter = nodemailer.createTransporter({
+        // Check if OTP already exists in session
+        if (req.session.OTP && req.session.id) {
+            console.log("OTP already sent, redirecting to OTP page");
+            return res.redirect('/Otp-Page');
+        }
+
+        let transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: "sujalkidecha68@gmail.com",
-                pass: "ztjqvhajgetvlngu"
+                user: "jenishpardava16@gmail.com",
+                pass: "xucxgebdvgmdobmz"
             }
         });
-        const OTP = Math.floor(10000000 + Math.random() * 90000000).toString();
+        const OTP = Math.floor(100000 + Math.random() * 900000).toString();
         const htmlTemplate = `
 <div style="background-color: #f4f7f9; padding: 50px 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
@@ -90,16 +105,17 @@ module.exports.verifyEmail = async (req, res) => {
 </div>
 `;
         const info = await transporter.sendMail({
-            from: '"Admin Panel" <sujalkidecha68@gmail.com>',
+            from: '"Admin Panel" <jenishpardava16@gmail.com>',
             to: req.body.email,
             subject: "Otp Verification",
             html: htmlTemplate
         });
 
+        console.log("OTP sent:", OTP);
         console.log(info.messageId);
 
-        res.cookie("OTP", OTP);
-        res.cookie("id", myAdmin._id);
+        req.session.OTP = OTP;
+        req.session.id = myAdmin._id;
 
         return res.redirect('/Otp-Page');
 
@@ -111,7 +127,7 @@ module.exports.verifyEmail = async (req, res) => {
 
 module.exports.otpPage = async (req, res) => {
     try {
-        if (!req.cookies.OTP || !req.cookies.id) {
+        if (!req.session.OTP || !req.session.id) {
             return res.redirect('/');
         }
         return res.render('auth/otpPage');
@@ -125,15 +141,15 @@ module.exports.otpPage = async (req, res) => {
 module.exports.VerifyOtp = async (req, res) => {
     try {
         console.log(req.body);
-        console.log(req.cookies);
+        console.log(req.session);
 
-        if (req.body.OTP !== req.cookies.OTP) {
-            console.log("Invalid Otp");
+        if (req.body.OTP !== req.session.OTP) {
+            console.log("Invalid Otp - Expected:", req.session.OTP, "Got:", req.body.OTP);
             return res.redirect('/Otp-Page');
         }
 
-        res.clearCookie('OTP');
-        return res.redirect('/forgot-pass');
+        delete req.session.OTP;
+        return res.redirect('/new-password');
 
 
     } catch (error) {
@@ -144,7 +160,7 @@ module.exports.VerifyOtp = async (req, res) => {
 }
 module.exports.forgotPasswordPage = async (req, res) => {
     try {
-        if (!req.cookies.id) {
+        if (!req.session.id) {
             return res.redirect('/');
         }
         return res.render('auth/forgotPass');
@@ -158,26 +174,26 @@ module.exports.forgotPasswordPage = async (req, res) => {
 module.exports.forgotPassword = async (req, res) => {
     try {
         console.log(req.body);
-        console.log(req.cookies);
+        console.log(req.session);
 
-        if (!req.cookies.id) {
+        if (!req.session.id) {
             console.log("Invalid session");
-            return res.redirect('/Otp-Page');
+            return res.redirect('/forgot-pass');
         }
 
         if (req.body.newPass !== req.body.ConfPass) {
             console.log("New and Confirm Password not matched");
-            return res.redirect('/forgot-pass');
+            return res.redirect('/new-password');
         }
 
         const updatePassword = await Admin.findByIdAndUpdate(
-            req.cookies.id,
+            req.session.id,
             { password: req.body.newPass },
             { new: true }
         );
 
-        res.clearCookie('id');   // bilkul same pattern
-        res.clearCookie('OTP');  // bilkul same pattern
+        delete req.session.id;
+        delete req.session.OTP;
 
         if (updatePassword) {
             console.log("Password Update...");
@@ -195,12 +211,12 @@ module.exports.forgotPassword = async (req, res) => {
 
 
 module.exports.changePasswordPage = async (req, res) => {
-    const admin = req.admin;
+    const admin = req.user;
     return res.render('auth/changePassPage', { admin, currentPath: req.path })
 }
 module.exports.changePassword = async (req, res) => {
     try {
-        const admin = req.admin;
+        const admin = req.user;
         const { currentPass, newPass, ConfPass } = req.body;
 
         if (currentPass != admin.password) {
@@ -236,50 +252,40 @@ module.exports.changePassword = async (req, res) => {
 }
 
 module.exports.loginPage = async (req, res) => {
-    const admin = await Admin.findById(req.cookies.adminId);
-
-    if (req.cookies.adminId && admin) {
+    if (req.isAuthenticated()) {
         return res.redirect('/dashboard');
     }
     return res.render('auth/login')
 }
 
 module.exports.logout = (req, res) => {
-    res.clearCookie('adminId');
-    return res.redirect('/');
+    req.logout((err) => {
+        if (err) {
+            return res.redirect('/dashboard');
+        }
+        return res.redirect('/');
+    });
 }
 
-module.exports.login = async (req, res) => {
-    try {
-        const admin = await Admin.findOne({ email: req.body.email });
 
-        if (!admin) {
-            console.log("Admin Not Found!!");
-            return res.redirect('/');
-        }
-
-        if (admin.password != req.body.password) {
-            console.log("Password not matched!!");
-            return res.redirect('/');
-        }
-
-        res.cookie('adminId', admin._id);
-        return res.redirect('/dashboard');
-
-    } catch (error) {
-        console.log('Something Went Wrong', error);
-        return res.redirect('/')
-    }
-}
 
 module.exports.addAdmin = async (req, res) => {
     try {
-
         console.log(req.body);
         try {
             if (req.file) {
-                req.body.profile = req.file.path;
+                req.body.profile_image = req.file.path;
             }
+            
+            // Convert hobby checkboxes to array
+            if (req.body.hobby) {
+                if (typeof req.body.hobby === 'string') {
+                    req.body.hobby = [req.body.hobby];
+                }
+            } else {
+                req.body.hobby = [];
+            }
+            
             const AddAdmin = await Admin.create(req.body);
             if (AddAdmin) {
                 console.log("Admin Insertion SuccessFully!");
@@ -294,26 +300,49 @@ module.exports.addAdmin = async (req, res) => {
         }
     } catch (error) {
         console.log("Something went wrong");
-        console.log("Error : ", err);
+        console.log("Error : ", error);
         return res.redirect('/');
     }
 }
 
+// Helper function to delete image file
+const deleteImageFile = (imagePath) => {
+    if (imagePath && fs.existsSync(imagePath)) {
+        try {
+            fs.unlinkSync(imagePath);
+            console.log("Image deleted:", imagePath);
+            return true;
+        } catch (error) {
+            console.log("Error deleting image:", error);
+            return false;
+        }
+    }
+    return false;
+};
+
 module.exports.deleteAdmin = async (req, res) => {
     try {
-        const currentAdmin = req.admin;
-
-        if (currentAdmin.email !== "sujalkidecha68@gmail.com") {
+        const id = req.params.id;
+        console.log("Attempting to delete admin with ID:", id);
+        
+        const adminToDelete = await Admin.findById(id);
+        
+        if (!adminToDelete) {
+            console.log("Admin not found for deletion");
             return res.redirect('/viewAdmin');
         }
 
-        const id = req.params.id;
+        // Delete the admin from database
         const deleteAdmin = await Admin.findByIdAndDelete(id);
 
         if (deleteAdmin) {
-            if (deleteAdmin.profile && fs.existsSync(deleteAdmin.profile)) {
-                fs.unlinkSync(deleteAdmin.profile);
+            console.log("Admin deleted:", deleteAdmin.fname, deleteAdmin.lname);
+            
+            // Delete associated profile image
+            if (deleteAdmin.profile_image) {
+                deleteImageFile(deleteAdmin.profile_image);
             }
+            
             console.log("Admin Deleted Successfully!");
         }
 
@@ -321,7 +350,7 @@ module.exports.deleteAdmin = async (req, res) => {
 
     } catch (err) {
         console.log("Delete error:", err);
-        return res.redirect('/');
+        return res.redirect('/viewAdmin');
     }
 }
 
@@ -342,35 +371,62 @@ module.exports.updateAdmin = async (req, res) => {
         console.log(req.body);
         console.log(req.file);
 
+        // Get current admin data to access old image
+        const currentAdmin = await Admin.findById(req.params.id);
+        if (!currentAdmin) {
+            console.log("Admin not found for update");
+            return res.redirect('/viewAdmin');
+        }
+
+        // Convert hobby checkboxes to array
+        if (req.body.hobby) {
+            if (typeof req.body.hobby === 'string') {
+                req.body.hobby = [req.body.hobby];
+            }
+        } else {
+            req.body.hobby = [];
+        }
+
         if (req.file) {
-
-            req.body.profile = req.file.path;
-
-            const updatedData = await Admin.findByIdAndUpdate(req.params.id, req.body);
+            // New image uploaded
+            req.body.profile_image = req.file.path;
+            
+            const updatedData = await Admin.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
             if (updatedData) {
-                fs.unlink(updatedData.profile, () => { });
-                console.log("Admin Updated Successfully...");
+                // Delete old image after successful update
+                if (currentAdmin.profile_image && currentAdmin.profile_image !== req.file.path) {
+                    deleteImageFile(currentAdmin.profile_image);
+                }
+                console.log("Admin Updated Successfully with new image...");
             } else {
-                console.log("Admin Updation Failed...");
+                // If update failed, delete the newly uploaded image
+                deleteImageFile(req.file.path);
+                console.log("Admin Update Failed...");
             }
-
         } else {
-
+            // No new image uploaded, keep existing image
             const updatedData = await Admin.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
             if (updatedData) {
                 console.log("Admin Updated Successfully...");
             } else {
-                console.log("Admin Updation Failed...");
+                console.log("Admin Update Failed...");
             }
         }
+        
         const returnTo = req.body.returnTo || '/viewAdmin';
-
         return res.redirect(returnTo);
+        
     } catch (err) {
         console.log("Something went wrong");
         console.log("Error :", err);
+        
+        // If there was an error and a file was uploaded, clean it up
+        if (req.file) {
+            deleteImageFile(req.file.path);
+        }
+        
         return res.redirect('/viewAdmin');
     }
 }

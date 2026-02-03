@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Automotive Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <div class="grain-overlay"></div>
+    <div class="admin-container">
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ELITE</span>
+                    <span class="brand-sub">Automotive</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    <span>Dashboard</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="#inventory" class="nav-item" data-page="inventory">
+                    <div class="nav-icon"><i class="fas fa-car"></i></div>
+                    <span>Inventory</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="#leads" class="nav-item" data-page="leads">
+                    <div class="nav-icon"><i class="fas fa-users"></i></div>
+                    <span>Leads & CRM</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="#sales" class="nav-item" data-page="sales">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    <span>Sales & Finance</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="#staff" class="nav-item" data-page="staff">
+                    <div class="nav-icon"><i class="fas fa-user-tie"></i></div>
+                    <span>Staff</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="#settings" class="nav-item" data-page="settings">
+                    <div class="nav-icon"><i class="fas fa-sliders-h"></i></div>
+                    <span>Settings</span>
+                    <div class="nav-glow"></div>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="sidebar-notification" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="pulse-badge">3</span>
+                </div>
+                
+                <div class="sidebar-user">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=d4af37&color=fff" alt="User">
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">Admin User</div>
+                        <div class="sidebar-user-role">Manager</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+            </div>
+        </aside>
+        
+        <div class="notification-dropdown" id="notificationDropdown" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 480px; max-height: 600px;">
+            <div class="notification-header">
+                <h3>Notifications</h3>
+                <button class="mark-read-btn">Mark all read</button>
+                <button class="notification-close-btn" onclick="document.getElementById('notificationDropdown').classList.remove('active')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="notification-list">
+                <div class="notification-item unread">
+                    <div class="notification-icon hot">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Hot Lead Alert</h4>
+                        <p>Michael Roberts is ready to close the deal</p>
+                        <span class="notification-time">2 minutes ago</span>
+                    </div>
+                </div>
+                <div class="notification-item unread">
+                    <div class="notification-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Sale Completed</h4>
+                        <p>BMW X5 sold for ₹45,90,000</p>
+                        <span class="notification-time">15 minutes ago</span>
+                    </div>
+                </div>
+                <div class="notification-item unread">
+                    <div class="notification-icon warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Follow-up Reminder</h4>
+                        <p>3 leads require immediate attention today</p>
+                        <span class="notification-time">1 hour ago</span>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon info">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>New Inventory</h4>
+                        <p>Mercedes C-Class added to inventory</p>
+                        <span class="notification-time">3 hours ago</span>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon info">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Monthly Report</h4>
+                        <p>Your monthly sales report is ready</p>
+                        <span class="notification-time">5 hours ago</span>
+                    </div>
+                </div>
+            </div>
+            <div class="notification-footer">
+                <a href="#">View all notifications</a>
+            </div>
+        </div>
+
+        <main class="main-content">
+
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Command Center</h1>
+                        <p class="page-subtitle">Real-time business intelligence</p>
+                    </div>
+                    <button class="btn-premium" onclick="showAddCarForm()">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Vehicle</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card-3d floating" data-tilt onclick="openKPIPage('stock')">
+                        <div class="card-glow"></div>
+                        <div class="kpi-icon-embossed">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <span class="kpi-label">Total Stock Value</span>
+                            <h2 class="kpi-value" data-count="5847500">₹0</h2>
+                            <div class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12.5% from last month</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-3d floating" data-tilt onclick="openKPIPage('cars')">
+                        <div class="card-glow"></div>
+                        <div class="kpi-icon-embossed">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <span class="kpi-label">Available Cars</span>
+                            <h2 class="kpi-value" data-count="127">0</h2>
+                            <div class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8 new this week</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-3d floating" data-tilt onclick="openKPIPage('sold')">
+                        <div class="card-glow"></div>
+                        <div class="kpi-icon-embossed">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <span class="kpi-label">Cars Sold</span>
+                            <h2 class="kpi-value" data-count="24">0</h2>
+                            <div class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15% increase</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-3d floating" data-tilt onclick="openKPIPage('profit')">
+                        <div class="card-glow"></div>
+                        <div class="kpi-icon-embossed">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <span class="kpi-label">Net Profit</span>
+                            <h2 class="kpi-value" data-count="1247800">₹0</h2>
+                            <div class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>21.3% margin</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-3d floating" data-tilt onclick="openKPIPage('leads')">
+                        <div class="card-glow"></div>
+                        <div class="kpi-icon-embossed">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <span class="kpi-label">Active Leads</span>
+                            <h2 class="kpi-value" data-count="43">0</h2>
+                            <div class="kpi-trend neutral">
+                                <i class="fas fa-minus"></i>
+                                <span>12 hot leads</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-3d floating urgent" data-tilt onclick="openKPIPage('followup')">
+                        <div class="card-glow amber"></div>
+                        <div class="kpi-icon-embossed">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <span class="kpi-label">Pending Follow-ups</span>
+                            <h2 class="kpi-value" data-count="8">0</h2>
+                            <div class="kpi-trend warning">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>3 due today</span>
+                            </div>
+                        </div>
+                    </div>                </div>
+
+                <div class="dashboard-grid">
+                    <div class="chart-card-3d glass-panel floating">
+                        <div class="card-header">
+                            <h3>Sales Performance</h3>
+                            <div class="chart-legend">
+                                <span class="legend-item"><i class="fas fa-circle"></i> Revenue</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card-3d glass-panel floating">
+                        <div class="card-header">
+                            <h3>Profit vs Expense</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="profitChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alerts-section">
+                    <h3 class="section-title">Priority Alerts</h3>
+                    <div class="alerts-grid">
+                        <div class="alert-card-3d glass-panel urgent floating">
+                            <div class="alert-glow red"></div>
+                            <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="alert-content">
+                                <h4>Dead Stock Warning</h4>
+                                <p>5 vehicles aging over 90 days</p>
+                                <button class="btn-link">View Details <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="alert-card-3d glass-panel warning floating">
+                            <div class="alert-glow amber"></div>
+                            <div class="alert-icon"><i class="fas fa-clock"></i></div>
+                            <div class="alert-content">
+                                <h4>Follow-up Reminders</h4>
+                                <p>8 leads require immediate attention</p>
+                                <button class="btn-link">View Leads <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="alert-card-3d glass-panel success floating">
+                            <div class="alert-glow green"></div>
+                            <div class="alert-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="alert-content">
+                                <h4>Top Performer</h4>
+                                <p>Mike Johnson - 12 sales this month</p>
+                                <button class="btn-link">View Stats <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inventory" class="page">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Inventory Management</h1>
+                        <p class="page-subtitle">127 vehicles in stock</p>
+                    </div>
+                    <button class="btn-premium" onclick="showAddCarForm()">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Vehicle</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+
+                <div class="filters-panel glass-panel floating">
+                    <div class="filter-group">
+                        <label><i class="fas fa-car"></i> Brand</label>
+                        <select class="glass-select" id="brandFilter">
+                            <option value="">All Brands</option>
+                            <option>Maruti Suzuki</option>
+                            <option>Hyundai</option>
+                            <option>Tata</option>
+                            <option>Mahindra</option>
+                            <option>Honda</option>
+                            <option>Toyota</option>
+                            <option>Kia</option>
+                            <option>BMW</option>
+                            <option>Mercedes-Benz</option>
+                            <option>Audi</option>
+                            <option>Volkswagen</option>
+                            <option>Skoda</option>
+                            <option>Renault</option>
+                            <option>Nissan</option>
+                            <option>Ford</option>
+                            <option>Jeep</option>
+                            <option>MG</option>
+                            <option>Volvo</option>
+                        </select>
+                        <input type="text" class="glass-input" placeholder="Or type brand name..." style="margin-top: 8px;">
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fas fa-calendar"></i> Year</label>
+                        <select class="glass-select" id="yearFilter">
+                            <option value="">All Years</option>
+                            <option>2024</option>
+                            <option>2023</option>
+                            <option>2022</option>
+                            <option>2021</option>
+                            <option>2020</option>
+                            <option>2019</option>
+                            <option>2018</option>
+                            <option>2017</option>
+                            <option>2016</option>
+                            <option>2015</option>
+                            <option>2014</option>
+                            <option>2013</option>
+                            <option>2012</option>
+                            <option>2011</option>
+                            <option>2010</option>
+                        </select>
+                        <input type="number" class="glass-input" placeholder="Or type year..." style="margin-top: 8px;" min="2000" max="2024">
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fas fa-info-circle"></i> Status</label>
+                        <select class="glass-select" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option>Available</option>
+                            <option>Sold</option>
+                            <option>Reserved</option>
+                            <option>Under Inspection</option>
+                            <option>In Transit</option>
+                            <option>Pending</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fas fa-rupee-sign"></i> Price Range</label>
+                        <div class="range-slider">
+                            <input type="range" min="0" max="10000000" value="5000000" class="slider" id="priceSlider">
+                            <div class="range-values">
+                                <span>₹0</span>
+                                <span>₹50L</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-table-3d glass-panel floating">
+                    <div class="table-header">
+                        <h3>Vehicle Inventory</h3>
+                        <div class="table-actions">
+                            <button class="btn-secondary"><i class="fas fa-download"></i> Export</button>
+                        </div>
+                    </div>
+                    <div class="luxury-table">
+                        <div class="table-row header-row">
+                            <div class="table-cell">Vehicle</div>
+                            <div class="table-cell">Specs</div>
+                            <div class="table-cell">Price</div>
+                            <div class="table-cell">Status</div>
+                            <div class="table-cell">Website</div>
+                            <div class="table-cell">Actions</div>
+                        </div>
+
+                        <div class="table-row data-row hoverable">
+                            <div class="table-cell vehicle-cell">
+                                <div class="vehicle-image">
+                                    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=120"
+                                        alt="BMW X5">
+                                </div>
+                                <div class="vehicle-info">
+                                    <h4>BMW X5 M Sport</h4>
+                                    <span class="vehicle-year">2023</span>
+                                </div>
+                            </div>
+                            <div class="table-cell specs-cell">
+                                <span class="spec-chip"><i class="fas fa-gas-pump"></i> Diesel</span>
+                                <span class="spec-chip"><i class="fas fa-tachometer-alt"></i> 15K km</span>
+                                <span class="spec-chip"><i class="fas fa-cog"></i> Auto</span>
+                            </div>
+                            <div class="table-cell price-cell">
+                                <div class="price-block">
+                                    <span class="price-main">₹45,90,000</span>
+                                    <span class="price-sub">Profit: ₹8.5L</span>
+                                </div>
+                            </div>
+                            <div class="table-cell status-cell">
+                                <span class="status-pill available">Available</span>
+                            </div>
+                            <div class="table-cell toggle-cell">
+                                <label class="premium-toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider-3d"></span>
+                                </label>
+                            </div>
+                            <div class="table-cell actions-cell">
+                                <button class="btn-icon-3d" onclick="editCar(1)"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon-3d"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon-3d danger"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="table-row data-row hoverable">
+                            <div class="table-cell vehicle-cell">
+                                <div class="vehicle-image">
+                                    <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=120"
+                                        alt="Mercedes">
+                                </div>
+                                <div class="vehicle-info">
+                                    <h4>Mercedes C-Class</h4>
+                                    <span class="vehicle-year">2021</span>
+                                </div>
+                            </div>
+                            <div class="table-cell specs-cell">
+                                <span class="spec-chip"><i class="fas fa-gas-pump"></i> Petrol</span>
+                                <span class="spec-chip"><i class="fas fa-tachometer-alt"></i> 28K km</span>
+                                <span class="spec-chip"><i class="fas fa-cog"></i> Auto</span>
+                            </div>
+                            <div class="table-cell price-cell">
+                                <div class="price-block">
+                                    <span class="price-main">₹38,50,000</span>
+                                    <span class="price-sub">Profit: ₹6.2L</span>
+                                </div>
+                            </div>
+                            <div class="table-cell status-cell">
+                                <span class="status-pill sold">Sold</span>
+                            </div>
+                            <div class="table-cell toggle-cell">
+                                <label class="premium-toggle">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider-3d"></span>
+                                </label>
+                            </div>
+                            <div class="table-cell actions-cell">
+                                <button class="btn-icon-3d"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon-3d"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon-3d danger"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="table-row data-row hoverable">
+                            <div class="table-cell vehicle-cell">
+                                <div class="vehicle-image">
+                                    <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=120"
+                                        alt="Audi">
+                                </div>
+                                <div class="vehicle-info">
+                                    <h4>Audi Q7 Premium</h4>
+                                    <span class="vehicle-year">2022</span>
+                                </div>
+                            </div>
+                            <div class="table-cell specs-cell">
+                                <span class="spec-chip"><i class="fas fa-gas-pump"></i> Hybrid</span>
+                                <span class="spec-chip"><i class="fas fa-tachometer-alt"></i> 12K km</span>
+                                <span class="spec-chip"><i class="fas fa-cog"></i> Auto</span>
+                            </div>
+                            <div class="table-cell price-cell">
+                                <div class="price-block">
+                                    <span class="price-main">₹52,90,000</span>
+                                    <span class="price-sub">Profit: ₹9.8L</span>
+                                </div>
+                            </div>
+                            <div class="table-cell status-cell">
+                                <span class="status-pill reserved">Reserved</span>
+                            </div>
+                            <div class="table-cell toggle-cell">
+                                <label class="premium-toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider-3d"></span>
+                                </label>
+                            </div>
+                            <div class="table-cell actions-cell">
+                                <button class="btn-icon-3d"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon-3d"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon-3d danger"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="leads" class="page">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Leads & CRM</h1>
+                        <p class="page-subtitle">43 active leads</p>
+                    </div>
+                    <button class="btn-premium">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Lead</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+
+                <div class="leads-kanban">
+                    <div class="kanban-column">
+                        <div class="column-header hot">
+                            <h3><i class="fas fa-fire"></i> Hot Leads</h3>
+                            <span class="count-badge">12</span>
+                        </div>
+                        <div class="lead-card-3d glass-panel floating urgent">
+                            <div class="card-glow red"></div>
+                            <div class="lead-header-row">
+                                <div class="lead-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Michael+Roberts&background=d4af37&color=1a1a1a"
+                                        alt="Lead">
+                                </div>
+                                <div class="lead-info-compact">
+                                    <h4>Michael Roberts</h4>
+                                    <span class="lead-contact"><i class="fas fa-phone"></i> (555) 123-4567</span>
+                                </div>
+                            </div>
+                            <div class="lead-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Interest</span>
+                                    <span class="detail-value">BMW X5, Audi Q7</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Budget</span>
+                                    <span class="detail-value">₹45L - ₹55L</span>
+                                </div>
+                            </div>
+                            <div class="lead-footer-row">
+                                <div class="reminder-badge pulsing">
+                                    <i class="fas fa-clock"></i> Follow-up today
+                                </div>
+                                <button class="btn-icon-3d primary"><i class="fas fa-phone"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="lead-card-3d glass-panel floating urgent">
+                            <div class="card-glow red"></div>
+                            <div class="lead-header-row">
+                                <div class="lead-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Priya+Sharma&background=d4af37&color=1a1a1a"
+                                        alt="Lead">
+                                </div>
+                                <div class="lead-info-compact">
+                                    <h4>Priya Sharma</h4>
+                                    <span class="lead-contact"><i class="fas fa-phone"></i> (555) 234-5678</span>
+                                </div>
+                            </div>
+                            <div class="lead-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Interest</span>
+                                    <span class="detail-value">Mercedes C-Class</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Budget</span>
+                                    <span class="detail-value">₹35L - ₹42L</span>
+                                </div>
+                            </div>
+                            <div class="lead-footer-row">
+                                <div class="reminder-badge pulsing">
+                                    <i class="fas fa-clock"></i> Follow-up today
+                                </div>
+                                <button class="btn-icon-3d primary"><i class="fas fa-phone"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kanban-column">
+                        <div class="column-header warm">
+                            <h3><i class="fas fa-star"></i> Warm Leads</h3>
+                            <span class="count-badge">18</span>
+                        </div>
+                        <div class="lead-card-3d glass-panel floating">
+                            <div class="card-glow amber"></div>
+                            <div class="lead-header-row">
+                                <div class="lead-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=d4af37&color=1a1a1a"
+                                        alt="Lead">
+                                </div>
+                                <div class="lead-info-compact">
+                                    <h4>Sarah Johnson</h4>
+                                    <span class="lead-contact"><i class="fas fa-phone"></i> (555) 987-6543</span>
+                                </div>
+                            </div>
+                            <div class="lead-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Interest</span>
+                                    <span class="detail-value">SUVs under ₹40L</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Budget</span>
+                                    <span class="detail-value">₹30L - ₹40L</span>
+                                </div>
+                            </div>
+                            <div class="lead-footer-row">
+                                <span class="last-contact">Last contact: 5 days ago</span>
+                                <button class="btn-icon-3d"><i class="fas fa-phone"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kanban-column">
+                        <div class="column-header cold">
+                            <h3><i class="fas fa-snowflake"></i> Cold Leads</h3>
+                            <span class="count-badge">13</span>
+                        </div>
+                        <div class="lead-card-3d glass-panel floating">
+                            <div class="card-glow"></div>
+                            <div class="lead-header-row">
+                                <div class="lead-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=David+Chen&background=d4af37&color=1a1a1a"
+                                        alt="Lead">
+                                </div>
+                                <div class="lead-info-compact">
+                                    <h4>David Chen</h4>
+                                    <span class="lead-contact"><i class="fas fa-phone"></i> (555) 456-7890</span>
+                                </div>
+                            </div>
+                            <div class="lead-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Interest</span>
+                                    <span class="detail-value">Sedans</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Budget</span>
+                                    <span class="detail-value">₹25L - ₹35L</span>
+                                </div>
+                            </div>
+                            <div class="lead-footer-row">
+                                <span class="last-contact">Last contact: 2 weeks ago</span>
+                                <button class="btn-icon-3d"><i class="fas fa-phone"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sales" class="page">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Sales & Finance</h1>
+                        <p class="page-subtitle">Financial overview</p>
+                    </div>
+                    <button class="btn-premium">
+                        <i class="fas fa-plus"></i>
+                        <span>New Sale</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+
+                <div class="finance-grid">
+                    <div class="finance-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="finance-icon"><i class="fas fa-wallet"></i></div>
+                        <div class="finance-content">
+                            <span class="finance-label">Total Investment</span>
+                            <h2 class="finance-value">₹4,35,72,000</h2>
+                            <span class="finance-period">Current stock value</span>
+                        </div>
+                    </div>
+
+                    <div class="finance-card-3d glass-panel floating">
+                        <div class="card-glow green"></div>
+                        <div class="finance-icon success"><i class="fas fa-chart-line"></i></div>
+                        <div class="finance-content">
+                            <span class="finance-label">Total Sales</span>
+                            <h2 class="finance-value">₹5,83,52,000</h2>
+                            <span class="finance-period">This quarter</span>
+                        </div>
+                    </div>
+
+                    <div class="finance-card-3d glass-panel floating">
+                        <div class="card-glow green"></div>
+                        <div class="finance-icon success"><i class="fas fa-trophy"></i></div>
+                        <div class="finance-content">
+                            <span class="finance-label">Net Profit</span>
+                            <h2 class="finance-value">₹1,47,80,000</h2>
+                            <span class="finance-period">This quarter</span>
+                        </div>
+                    </div>
+
+                    <div class="finance-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="finance-icon"><i class="fas fa-percentage"></i></div>
+                        <div class="finance-content">
+                            <span class="finance-label">Profit Margin</span>
+                            <h2 class="finance-value">25.3%</h2>
+                            <span class="finance-period">Average margin</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sales-chart-section glass-panel floating">
+                    <div class="card-header">
+                        <h3>Revenue Trend</h3>
+                        <div class="chart-period-selector">
+                            <button class="period-btn active">6M</button>
+                            <button class="period-btn">1Y</button>
+                            <button class="period-btn">All</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="sales-table-3d glass-panel floating">
+                    <div class="table-header">
+                        <h3>Recent Transactions</h3>
+                        <button class="btn-secondary"><i class="fas fa-download"></i> Export</button>
+                    </div>
+                    <div class="luxury-table">
+                        <div class="table-row header-row">
+                            <div class="table-cell">Date</div>
+                            <div class="table-cell">Vehicle</div>
+                            <div class="table-cell">Customer</div>
+                            <div class="table-cell">Sales Rep</div>
+                            <div class="table-cell">Amount</div>
+                            <div class="table-cell">Profit</div>
+                            <div class="table-cell">Status</div>
+                        </div>
+
+                        <div class="table-row data-row hoverable">
+                            <div class="table-cell">Jan 15, 2024</div>
+                            <div class="table-cell">2021 Mercedes C-Class</div>
+                            <div class="table-cell">John Smith</div>
+                            <div class="table-cell">Mike Johnson</div>
+                            <div class="table-cell price-cell">
+                                <span class="price-main">₹38,50,000</span>
+                            </div>
+                            <div class="table-cell profit-cell">
+                                <span class="profit-value">₹6,20,000</span>
+                            </div>
+                            <div class="table-cell status-cell">
+                                <span class="status-pill completed">Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="table-row data-row hoverable">
+                            <div class="table-cell">Jan 14, 2024</div>
+                            <div class="table-cell">2020 Toyota Camry</div>
+                            <div class="table-cell">Emily Davis</div>
+                            <div class="table-cell">Sarah Williams</div>
+                            <div class="table-cell price-cell">
+                                <span class="price-main">₹22,90,000</span>
+                            </div>
+                            <div class="table-cell profit-cell">
+                                <span class="profit-value">₹3,80,000</span>
+                            </div>
+                            <div class="table-cell status-cell">
+                                <span class="status-pill completed">Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="table-row data-row hoverable">
+                            <div class="table-cell">Jan 13, 2024</div>
+                            <div class="table-cell">2022 Honda Accord</div>
+                            <div class="table-cell">Robert Brown</div>
+                            <div class="table-cell">Mike Johnson</div>
+                            <div class="table-cell price-cell">
+                                <span class="price-main">₹28,50,000</span>
+                            </div>
+                            <div class="table-cell profit-cell">
+                                <span class="profit-value">₹4,50,000</span>
+                            </div>
+                            <div class="table-cell status-cell">
+                                <span class="status-pill pending">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="staff" class="page">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Staff Management</h1>
+                        <p class="page-subtitle">Team performance</p>
+                    </div>
+                    <button class="btn-premium" onclick="window.location.href='add-staff.html'">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Staff</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+
+                <div class="staff-grid-3d">
+                    <div class="staff-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="staff-avatar-large">
+                            <img src="https://ui-avatars.com/api/?name=Mike+Johnson&background=d4af37&color=1a1a1a&size=120"
+                                alt="Staff">
+                            <div class="status-indicator online"></div>
+                        </div>
+                        <h3 class="staff-name">Mike Johnson</h3>
+                        <span class="staff-role-badge manager">Sales Manager</span>
+                        <div class="staff-stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value">42</span>
+                                <span class="stat-label">Sales</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹89L</span>
+                                <span class="stat-label">Revenue</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.8</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <button class="btn-secondary full-width">View Profile</button>
+                    </div>
+
+                    <div class="staff-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="staff-avatar-large">
+                            <img src="https://ui-avatars.com/api/?name=Sarah+Williams&background=d4af37&color=1a1a1a&size=120"
+                                alt="Staff">
+                            <div class="status-indicator online"></div>
+                        </div>
+                        <h3 class="staff-name">Sarah Williams</h3>
+                        <span class="staff-role-badge sales">Sales Representative</span>
+                        <div class="staff-stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value">28</span>
+                                <span class="stat-label">Sales</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹56L</span>
+                                <span class="stat-label">Revenue</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.6</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <button class="btn-secondary full-width">View Profile</button>
+                    </div>
+
+                    <div class="staff-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="staff-avatar-large">
+                            <img src="https://ui-avatars.com/api/?name=Tom+Anderson&background=d4af37&color=1a1a1a&size=120"
+                                alt="Staff">
+                            <div class="status-indicator away"></div>
+                        </div>
+                        <h3 class="staff-name">Tom Anderson</h3>
+                        <span class="staff-role-badge finance">Finance Manager</span>
+                        <div class="staff-stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value">35</span>
+                                <span class="stat-label">Deals</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹72L</span>
+                                <span class="stat-label">Revenue</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.9</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <button class="btn-secondary full-width">View Profile</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings" class="page">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Settings</h1>
+                        <p class="page-subtitle">System configuration</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="settings-header">
+                            <div class="settings-icon"><i class="fas fa-building"></i></div>
+                            <h3>Dealership Information</h3>
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Dealership Name</label>
+                            <input type="text" value="Elite Automotive" class="glass-input">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Address</label>
+                            <input type="text" value="123 Luxury Lane, Mumbai, MH 400001" class="glass-input">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Phone</label>
+                            <input type="text" value="+91 98765 43210" class="glass-input">
+                        </div>
+                        <button class="btn-premium full-width">
+                            <span>Save Changes</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+
+                    <div class="settings-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="settings-header">
+                            <div class="settings-icon"><i class="fas fa-bell"></i></div>
+                            <h3>Notifications</h3>
+                        </div>
+                        <div class="setting-toggle-item">
+                            <div class="toggle-info">
+                                <h4>Lead Follow-up Alerts</h4>
+                                <p>Get notified when leads need follow-up</p>
+                            </div>
+                            <label class="premium-toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider-3d"></span>
+                            </label>
+                        </div>
+                        <div class="setting-toggle-item">
+                            <div class="toggle-info">
+                                <h4>New Inventory Alerts</h4>
+                                <p>Notifications for new vehicle additions</p>
+                            </div>
+                            <label class="premium-toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider-3d"></span>
+                            </label>
+                        </div>
+                        <div class="setting-toggle-item">
+                            <div class="toggle-info">
+                                <h4>Sales Reports</h4>
+                                <p>Daily sales summary emails</p>
+                            </div>
+                            <label class="premium-toggle">
+                                <input type="checkbox">
+                                <span class="toggle-slider-3d"></span>
+                            </label>
+                        </div>
+                        <div class="setting-toggle-item">
+                            <div class="toggle-info">
+                                <h4>Dead Stock Warnings</h4>
+                                <p>Alert for vehicles aging over 90 days</p>
+                            </div>
+                            <label class="premium-toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider-3d"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-card-3d glass-panel floating">
+                        <div class="card-glow"></div>
+                        <div class="settings-header">
+                            <div class="settings-icon"><i class="fas fa-shield-alt"></i></div>
+                            <h3>Security</h3>
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Current Password</label>
+                            <input type="password" class="glass-input" placeholder="Enter current password">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>New Password</label>
+                            <input type="password" class="glass-input" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Confirm Password</label>
+                            <input type="password" class="glass-input" placeholder="Confirm new password">
+                        </div>
+                        <button class="btn-premium full-width">
+                            <span>Update Password</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="carFormModal" class="modal-3d">
+        <div class="modal-backdrop" onclick="closeCarForm()"></div>
+        <div class="modal-content-3d glass-panel floating">
+            <div class="modal-header-3d">
+                <div class="modal-title-group">
+                    <div class="modal-icon"><i class="fas fa-car"></i></div>
+                    <h2>Add New Vehicle</h2>
+                </div>
+                <button class="modal-close-3d" onclick="closeCarForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body-3d">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-info-circle"></i> Vehicle Details</h3>
+                    <div class="form-grid-3d">
+                        <div class="form-group-3d">
+                            <label>Brand</label>
+                            <input type="text" class="glass-input" placeholder="e.g., BMW">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Model</label>
+                            <input type="text" class="glass-input" placeholder="e.g., X5 M Sport">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Year</label>
+                            <input type="number" class="glass-input" placeholder="2023">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>VIN Number</label>
+                            <input type="text" class="glass-input" placeholder="Vehicle Identification Number">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Mileage (km)</label>
+                            <input type="number" class="glass-input" placeholder="15000">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Color</label>
+                            <input type="text" class="glass-input" placeholder="e.g., Pearl White">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Fuel Type</label>
+                            <select class="glass-select">
+                                <option>Petrol</option>
+                                <option>Diesel</option>
+                                <option>Hybrid</option>
+                                <option>Electric</option>
+                            </select>
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Transmission</label>
+                            <select class="glass-select">
+                                <option>Automatic</option>
+                                <option>Manual</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-rupee-sign"></i> Pricing & Profit</h3>
+                    <div class="form-grid-3d">
+                        <div class="form-group-3d">
+                            <label>Purchase Price</label>
+                            <input type="number" class="glass-input" placeholder="3500000" id="purchasePrice">
+                        </div>
+                        <div class="form-group-3d">
+                            <label>Selling Price</label>
+                            <input type="number" class="glass-input" placeholder="4590000" id="sellingPrice">
+                        </div>
+                        <div class="form-group-3d full-width">
+                            <div class="profit-preview glass-panel">
+                                <div class="profit-item">
+                                    <span>Expected Profit</span>
+                                    <h3 id="profitAmount">₹0</h3>
+                                </div>
+                                <div class="profit-item">
+                                    <span>Margin</span>
+                                    <h3 id="profitMargin">0%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-heart"></i> Car Health</h3>
+                    <div class="health-slider-group">
+                        <label>Overall Condition</label>
+                        <div class="health-slider-container">
+                            <input type="range" min="0" max="100" value="85" class="health-slider">
+                            <div class="health-icons">
+                                <span><i class="fas fa-frown"></i> Poor</span>
+                                <span><i class="fas fa-meh"></i> Fair</span>
+                                <span><i class="fas fa-smile"></i> Good</span>
+                                <span><i class="fas fa-grin-stars"></i> Excellent</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-images"></i> Vehicle Images</h3>
+                    <div class="file-upload-3d glass-panel">
+                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <h4>Drag & drop images here</h4>
+                        <p>or click to browse</p>
+                        <input type="file" multiple accept="image/*">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-globe"></i> Website Visibility</h3>
+                    <div class="website-toggle-group">
+                        <div class="toggle-info">
+                            <h4>Show on Website</h4>
+                            <p>Make this vehicle visible to customers</p>
+                        </div>
+                        <label class="premium-toggle large">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider-3d"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer-3d">
+                <button class="btn-secondary" onclick="closeCarForm()">Cancel</button>
+                <button class="btn-premium">
+                    <i class="fas fa-save"></i>
+                    <span>Save Vehicle</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+    <div id="kpiDetailsModal" class="modal-3d">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content-3d glass-panel floating" style="max-width: 1100px;">
+            <div class="modal-header-3d">
+                <div class="modal-title-group">
+                    <div class="modal-icon" id="kpiModalIcon"><i class="fas fa-chart-line"></i></div>
+                    <h2 id="kpiModalTitle">Details</h2>
+                </div>
+                <button class="modal-close-3d" onclick="closeKPIDetails()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body-3d" id="kpiModalBody">
+                <!-- Content will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const adminSchema = mongoose.Schema({
-    profile: {
+    profile_image: {
         type: String,
-        required: true,
+        required: false,
     },
     fname: {
         type: String,

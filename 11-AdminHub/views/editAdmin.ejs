@@ -124,23 +124,68 @@
             <div class="grid grid-2">
                 <div class="form-group">
                     <label class="form-label">
+                        <i class="fas fa-phone" style="color: var(--primary); margin-right: 8px;"></i>
+                        Phone Number
+                    </label>
+                    <input type="number" name="phone" class="form-input" value="<%= singleAdmin.phone %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
                         <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 8px;"></i>
                         City
                     </label>
                     <input type="text" name="city" class="form-input" value="<%= singleAdmin.city %>" required>
                 </div>
-                
+            </div>
+            
+            <div class="grid grid-2">
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-venus-mars" style="color: var(--primary); margin-right: 8px;"></i>
                         Gender
                     </label>
-                    <select name="gender" class="form-select" required>
-                        <option value="Male" <%= singleAdmin.gender === 'Male' ? 'selected' : '' %>>👨 Male</option>
-                        <option value="Female" <%= singleAdmin.gender === 'Female' ? 'selected' : '' %>>👩 Female</option>
-                        <option value="Other" <%= singleAdmin.gender === 'Other' ? 'selected' : '' %>>🧑 Other</option>
+                    <select name="gander" class="form-select" required>
+                        <option value="Male" <%= singleAdmin.gander === 'Male' ? 'selected' : '' %>>👨 Male</option>
+                        <option value="Female" <%= singleAdmin.gander === 'Female' ? 'selected' : '' %>>👩 Female</option>
+                        <option value="Other" <%= singleAdmin.gander === 'Other' ? 'selected' : '' %>>🧑 Other</option>
                     </select>
                 </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-heart" style="color: var(--primary); margin-right: 8px;"></i>
+                        Hobbies
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Reading" <%= singleAdmin.hobby && singleAdmin.hobby.includes('Reading') ? 'checked' : '' %>> Reading
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Gaming" <%= singleAdmin.hobby && singleAdmin.hobby.includes('Gaming') ? 'checked' : '' %>> Gaming
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Sports" <%= singleAdmin.hobby && singleAdmin.hobby.includes('Sports') ? 'checked' : '' %>> Sports
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Music" <%= singleAdmin.hobby && singleAdmin.hobby.includes('Music') ? 'checked' : '' %>> Music
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Traveling" <%= singleAdmin.hobby && singleAdmin.hobby.includes('Traveling') ? 'checked' : '' %>> Traveling
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Cooking" <%= singleAdmin.hobby && singleAdmin.hobby.includes('Cooking') ? 'checked' : '' %>> Cooking
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-info-circle" style="color: var(--primary); margin-right: 8px;"></i>
+                    About
+                </label>
+                <textarea name="about" class="form-input" rows="4" placeholder="Tell us about yourself" required><%= singleAdmin.about %></textarea>
             </div>
             
             <!-- Action Buttons -->

@@ -105,24 +105,69 @@
             <div class="grid grid-2">
                 <div class="form-group">
                     <label class="form-label">
+                        <i class="fas fa-phone" style="color: var(--primary); margin-right: 8px;"></i>
+                        Phone Number
+                    </label>
+                    <input type="number" name="phone" class="form-input" placeholder="Enter phone number" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
                         <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 8px;"></i>
                         City
                     </label>
                     <input type="text" name="city" class="form-input" placeholder="Enter city" required>
                 </div>
-                
+            </div>
+            
+            <div class="grid grid-2">
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-venus-mars" style="color: var(--primary); margin-right: 8px;"></i>
                         Gender
                     </label>
-                    <select name="gender" class="form-select" required>
+                    <select name="gander" class="form-select" required>
                         <option value="">Select Gender</option>
                         <option value="Male">👨 Male</option>
                         <option value="Female">👩 Female</option>
                         <option value="Other">🧑 Other</option>
                     </select>
                 </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-heart" style="color: var(--primary); margin-right: 8px;"></i>
+                        Hobbies
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Reading"> Reading
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Gaming"> Gaming
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Sports"> Sports
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Music"> Music
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Traveling"> Traveling
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="hobby" value="Cooking"> Cooking
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-info-circle" style="color: var(--primary); margin-right: 8px;"></i>
+                    About
+                </label>
+                <textarea name="about" class="form-input" rows="4" placeholder="Tell us about yourself" required></textarea>
             </div>
             
             <!-- Action Buttons -->

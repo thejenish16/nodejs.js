@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle - Elite Automotive Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <div class="grain-overlay"></div>
+    <div class="admin-container">
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ELITE</span>
+                    <span class="brand-sub">Automotive</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    <span>Dashboard</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#inventory" class="nav-item active">
+                    <div class="nav-icon"><i class="fas fa-car"></i></div>
+                    <span>Inventory</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#leads" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-users"></i></div>
+                    <span>Leads & CRM</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#sales" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    <span>Sales & Finance</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#staff" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-user-tie"></i></div>
+                    <span>Staff</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="index.html#settings" class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-sliders-h"></i></div>
+                    <span>Settings</span>
+                    <div class="nav-glow"></div>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar glass-panel">
+                <div class="search-box glass-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search vehicles, leads, sales...">
+                </div>
+                <div class="header-actions">
+                    <div class="notification-wrapper">
+                        <button class="icon-btn glass-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="pulse-badge">3</span>
+                        </button>
+                    </div>
+                    <div class="user-profile glass-btn">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=1a1a1a&color=d4af37"
+                            alt="User">
+                        <div class="user-info">
+                            <span class="user-name">Admin User</span>
+                            <span class="user-role">Manager</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page active">
+                <div class="page-header">
+                    <div>
+                        <button class="btn-secondary" onclick="window.location.href='index.html'" style="margin-bottom: 16px;">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </button>
+                        <h1 class="page-title">Add New Vehicle</h1>
+                        <p class="page-subtitle">Enter vehicle details to add to inventory</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel floating" style="padding: 32px; border-radius: 20px;">
+                    <form id="addVehicleForm">
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-info-circle"></i> Vehicle Details</h3>
+                            <div class="form-grid-3d">
+                                <div class="form-group-3d">
+                                    <label>Brand</label>
+                                    <input type="text" class="glass-input" placeholder="e.g., BMW" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Model</label>
+                                    <input type="text" class="glass-input" placeholder="e.g., X5 M Sport" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Year</label>
+                                    <input type="number" class="glass-input" placeholder="2023" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>VIN Number</label>
+                                    <input type="text" class="glass-input" placeholder="Vehicle Identification Number" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Mileage (km)</label>
+                                    <input type="number" class="glass-input" placeholder="15000" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Color</label>
+                                    <input type="text" class="glass-input" placeholder="e.g., Pearl White" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Fuel Type</label>
+                                    <select class="glass-select" required>
+                                        <option value="">Select Fuel Type</option>
+                                        <option>Petrol</option>
+                                        <option>Diesel</option>
+                                        <option>Hybrid</option>
+                                        <option>Electric</option>
+                                    </select>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Transmission</label>
+                                    <select class="glass-select" required>
+                                        <option value="">Select Transmission</option>
+                                        <option>Automatic</option>
+                                        <option>Manual</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-rupee-sign"></i> Pricing & Profit</h3>
+                            <div class="form-grid-3d">
+                                <div class="form-group-3d">
+                                    <label>Purchase Price</label>
+                                    <input type="number" class="glass-input" placeholder="3500000" id="purchasePrice" required>
+                                </div>
+                                <div class="form-group-3d">
+                                    <label>Selling Price</label>
+                                    <input type="number" class="glass-input" placeholder="4590000" id="sellingPrice" required>
+                                </div>
+                                <div class="form-group-3d full-width">
+                                    <div class="profit-preview glass-panel">
+                                        <div class="profit-item">
+                                            <span>Expected Profit</span>
+                                            <h3 id="profitAmount">₹0</h3>
+                                        </div>
+                                        <div class="profit-item">
+                                            <span>Margin</span>
+                                            <h3 id="profitMargin">0%</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-heart"></i> Car Health</h3>
+                            <div class="health-slider-group">
+                                <label>Overall Condition</label>
+                                <div class="health-slider-container">
+                                    <input type="range" min="0" max="100" value="85" class="health-slider">
+                                    <div class="health-icons">
+                                        <span><i class="fas fa-frown"></i> Poor</span>
+                                        <span><i class="fas fa-meh"></i> Fair</span>
+                                        <span><i class="fas fa-smile"></i> Good</span>
+                                        <span><i class="fas fa-grin-stars"></i> Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-images"></i> Vehicle Images</h3>
+                            <div class="file-upload-3d glass-panel">
+                                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                <h4>Drag & drop images here</h4>
+                                <p>or click to browse</p>
+                                <input type="file" multiple accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fas fa-globe"></i> Website Visibility</h3>
+                            <div class="website-toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Show on Website</h4>
+                                    <p>Make this vehicle visible to customers</p>
+                                </div>
+                                <label class="premium-toggle large">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider-3d"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+                            <button type="button" class="btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                            <button type="submit" class="btn-premium">
+                                <i class="fas fa-save"></i>
+                                <span>Save Vehicle</span>
+                                <div class="btn-glow"></div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Profit calculation
+        function calculateProfit() {
+            const purchasePrice = parseFloat(document.getElementById('purchasePrice').value) || 0;
+            const sellingPrice = parseFloat(document.getElementById('sellingPrice').value) || 0;
+            
+            const profit = sellingPrice - purchasePrice;
+            const margin = purchasePrice > 0 ? ((profit / sellingPrice) * 100) : 0;
+            
+            document.getElementById('profitAmount').textContent = `₹${profit.toLocaleString('en-IN')}`;
+            document.getElementById('profitMargin').textContent = `${margin.toFixed(1)}%`;
+        }
+
+        document.getElementById('purchasePrice').addEventListener('input', calculateProfit);
+        document.getElementById('sellingPrice').addEventListener('input', calculateProfit);
+
+        // File upload preview
+        document.querySelector('.file-upload-3d input[type="file"]').addEventListener('change', (e) => {
+            const files = e.target.files;
+            const parent = e.target.closest('.file-upload-3d');
+            if (files.length > 0 && parent) {
+                parent.querySelector('h4').textContent = `${files.length} file(s) selected`;
+                parent.style.borderColor = '#d4af37';
+                parent.style.background = 'rgba(212, 175, 55, 0.1)';
+            }
+        });
+
+        // Form submission
+        document.getElementById('addVehicleForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show success message
+            alert('Vehicle added successfully!');
+            
+            // Redirect back to inventory
+            window.location.href = 'index.html#inventory';
+        });
+
+        // Smooth page load animation
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

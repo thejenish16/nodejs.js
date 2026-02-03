@@ -1102,3 +1102,29 @@ body {
 .slide-in {
     animation: slideInRight 0.6s ease-out;
 }
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.checkbox-label:hover {
+    background-color: #f5f5f5;
+    border-color: #007bff;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin: 0;
+}
