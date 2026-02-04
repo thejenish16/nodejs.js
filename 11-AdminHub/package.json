@@ -12,7 +12,9 @@
     "setup": "node server.js"
   },
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.7",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
     "express-session": "^1.17.3",
@@ -21,6 +23,7 @@
     "nodemailer": "^7.0.12",
     "nodemon": "^3.1.11",
     "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "toastify-js": "^1.12.0"
   }
 }

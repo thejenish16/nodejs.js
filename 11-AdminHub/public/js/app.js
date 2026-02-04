@@ -223,7 +223,7 @@ function handleFormSubmit(e) {
     
     if (!isFormValid) {
         e.preventDefault();
-        showNotification('Please fix the errors before submitting', 'error');
+        showToast('Please fix the errors before submitting', 'error');
         return;
     }
     
@@ -252,7 +252,7 @@ function enhanceFileInputs() {
             if (file) {
                 // Validate file size (5MB max)
                 if (file.size > 5 * 1024 * 1024) {
-                    showNotification('File size must be less than 5MB', 'error');
+                    showToast('File size must be less than 5MB', 'error');
                     input.value = '';
                     return;
                 }
@@ -264,7 +264,7 @@ function enhanceFileInputs() {
                 
                 // Update input styling
                 input.style.borderColor = 'var(--success)';
-                showNotification(`File "${file.name}" selected successfully`, 'success');
+                showToast(`File "${file.name}" selected successfully`, 'success');
             }
         });
     });
@@ -426,44 +426,52 @@ function showPageLoader() {
     }, 3000);
 }
 
+// Enhanced notification system with Toastify
+function showToast(message, type = 'info', duration = 3000) {
+    const colors = {
+        success: {
+            background: "linear-gradient(135deg, #10b981, #059669)",
+            icon: "✅"
+        },
+        error: {
+            background: "linear-gradient(135deg, #ef4444, #dc2626)",
+            icon: "❌"
+        },
+        warning: {
+            background: "linear-gradient(135deg, #f59e0b, #d97706)",
+            icon: "⚠️"
+        },
+        info: {
+            background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+            icon: "ℹ️"
+        }
+    };
+    
+    const config = colors[type] || colors.info;
+    
+    Toastify({
+        text: `${config.icon} ${message}`,
+        duration: duration,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+            background: config.background,
+            borderRadius: "12px",
+            boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
+            fontSize: "15px",
+            fontWeight: "600",
+            padding: "16px 20px",
+            fontFamily: "'Inter', sans-serif"
+        },
+        onClick: function(){}
+    }).showToast();
+}
+
 // Notification system
 function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 16px 24px;
-        background: var(--${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'primary'});
-        color: white;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-lg);
-        z-index: 10000;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    
-    const icon = type === 'error' ? 'exclamation-circle' : 
-                 type === 'success' ? 'check-circle' : 'info-circle';
-    
-    notification.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Auto remove
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    showToast(message, type);
 }
 
 // Add CSS animations

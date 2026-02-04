@@ -212,3 +212,22 @@
 </div>
 
 <%- include('footer') %>
+
+<% if (typeof autoLogout !== 'undefined' && autoLogout) { %>
+<script>
+setTimeout(() => {
+  Swal.fire({
+    title: 'Session Ending',
+    text: 'You will be logged out automatically in 3 seconds...',
+    icon: 'warning',
+    timer: 3000,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  }).then(() => {
+    window.location.href = '/logout';
+  });
+}, 1000);
+</script>
+<% } %>

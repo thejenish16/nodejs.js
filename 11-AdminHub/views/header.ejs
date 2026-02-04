@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,11 @@
     <link rel="stylesheet" href="/css/app.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.18/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
+
 <body>
     <header class="header">
         <nav class="navbar">
@@ -19,7 +24,7 @@
                     <span class="logo-text">AdminHub</span>
                 </a>
             </div>
-            
+
             <div class="nav-center">
                 <ul class="nav-menu">
                     <li class="nav-item">
@@ -48,35 +53,39 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="nav-actions">
                 <div class="user-menu">
                     <div class="user-info">
-                        <% if (typeof admin !== 'undefined' && admin) { %>
+                        <% if (typeof admin !=='undefined' && admin) { %>
                             <% if (admin.profile_image) { %>
                                 <img src="/<%= admin.profile_image %>" alt="<%= admin.fname %>" class="user-avatar">
-                            <% } else { %>
-                                <div class="user-avatar user-avatar-initials">
-                                    <%= admin.fname.charAt(0) %><%= admin.lname.charAt(0) %>
-                                </div>
-                            <% } %>
-                            <div class="user-details">
-                                <span class="user-name"><%= admin.fname %> <%= admin.lname %></span>
-                                <span class="user-role">Administrator</span>
-                            </div>
-                        <% } else { %>
-                            <div class="user-avatar user-avatar-initials">AU</div>
-                            <div class="user-details">
-                                <span class="user-name">Admin User</span>
-                                <span class="user-role">Administrator</span>
-                            </div>
-                        <% } %>
+                                <% } else { %>
+                                    <div class="user-avatar user-avatar-initials">
+                                        <%= admin.fname.charAt(0) %>
+                                            <%= admin.lname.charAt(0) %>
+                                    </div>
+                                    <% } %>
+                                        <div class="user-details">
+                                            <span class="user-name">
+                                                <%= admin.fname %>
+                                                    <%= admin.lname %>
+                                            </span>
+                                            <span class="user-role">Administrator</span>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="user-avatar user-avatar-initials">AU</div>
+                                            <div class="user-details">
+                                                <span class="user-name">Admin User</span>
+                                                <span class="user-role">Administrator</span>
+                                            </div>
+                                            <% } %>
                     </div>
                     <a href="/logout" class="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </div>
-                
+
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
                     <span></span>
                     <span></span>
@@ -84,41 +93,49 @@
                 </button>
             </div>
         </nav>
-        
+
         <!-- Mobile Menu -->
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu-header">
                 <div class="mobile-user-info">
-                    <% if (typeof admin !== 'undefined' && admin) { %>
+                    <% if (typeof admin !=='undefined' && admin) { %>
                         <% if (admin.profile_image) { %>
                             <img src="/<%= admin.profile_image %>" alt="<%= admin.fname %>" class="mobile-user-avatar">
-                        <% } else { %>
-                            <div class="mobile-user-avatar">
-                                <%= admin.fname.charAt(0) %><%= admin.lname.charAt(0) %>
-                            </div>
-                        <% } %>
-                        <div class="mobile-user-details">
-                            <span class="mobile-user-name"><%= admin.fname %> <%= admin.lname %></span>
-                            <span class="mobile-user-role">Administrator</span>
-                        </div>
-                    <% } else { %>
-                        <div class="mobile-user-avatar">AU</div>
-                        <div class="mobile-user-details">
-                            <span class="mobile-user-name">Admin User</span>
-                            <span class="mobile-user-role">Administrator</span>
-                        </div>
-                    <% } %>
+                            <% } else { %>
+                                <div class="mobile-user-avatar">
+                                    <%= admin.fname.charAt(0) %>
+                                        <%= admin.lname.charAt(0) %>
+                                </div>
+                                <% } %>
+                                    <div class="mobile-user-details">
+                                        <span class="mobile-user-name">
+                                            <%= admin.fname %>
+                                                <%= admin.lname %>
+                                        </span>
+                                        <span class="mobile-user-role">Administrator</span>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="mobile-user-avatar">AU</div>
+                                        <div class="mobile-user-details">
+                                            <span class="mobile-user-name">Admin User</span>
+                                            <span class="mobile-user-role">Administrator</span>
+                                        </div>
+                                        <% } %>
                 </div>
             </div>
             <ul class="mobile-nav-menu">
-                <li><a href="/dashboard" class="mobile-nav-link <%= currentPath === '/dashboard' ? 'active' : '' %>"><i class="fas fa-home"></i>Dashboard</a></li>
-                <li><a href="/addAdmin" class="mobile-nav-link <%= currentPath === '/addAdmin' ? 'active' : '' %>"><i class="fas fa-user-plus"></i>Add Admin</a></li>
-                <li><a href="/viewAdmin" class="mobile-nav-link <%= currentPath === '/viewAdmin' ? 'active' : '' %>"><i class="fas fa-users"></i>View Admins</a></li>
-                <li><a href="/profile" class="mobile-nav-link <%= currentPath === '/profile' ? 'active' : '' %>"><i class="fas fa-user-circle"></i>Profile</a></li>
+                <li><a href="/dashboard" class="mobile-nav-link <%= currentPath === '/dashboard' ? 'active' : '' %>"><i
+                            class="fas fa-home"></i>Dashboard</a></li>
+                <li><a href="/addAdmin" class="mobile-nav-link <%= currentPath === '/addAdmin' ? 'active' : '' %>"><i
+                            class="fas fa-user-plus"></i>Add Admin</a></li>
+                <li><a href="/viewAdmin" class="mobile-nav-link <%= currentPath === '/viewAdmin' ? 'active' : '' %>"><i
+                            class="fas fa-users"></i>View Admins</a></li>
+                <li><a href="/profile" class="mobile-nav-link <%= currentPath === '/profile' ? 'active' : '' %>"><i
+                            class="fas fa-user-circle"></i>Profile</a></li>
                 <li><a href="/logout" class="mobile-nav-link logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
             </ul>
         </div>
     </header>
-    
+
     <main class="main">
         <div class="container">

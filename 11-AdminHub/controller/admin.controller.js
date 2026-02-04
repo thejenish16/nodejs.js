@@ -9,7 +9,13 @@ module.exports.dashborad = async (req, res) => {
         const admin = req.user;
         let allAdmin = await Admin.find();
         allAdmin = allAdmin.filter((subadmin) => subadmin.email != admin.email);
-        return res.render('dashboard', { admin, allAdmin, currentPath: req.path });
+        
+        const loginSuccess = req.session.loginSuccess;
+        if (loginSuccess) {
+            delete req.session.loginSuccess;
+        }
+        
+        return res.render('dashboard', { admin, allAdmin, currentPath: req.path, loginSuccess });
     } catch (error) {
         console.log("Something went wrong");
         console.log("Error : ", error);
@@ -22,7 +28,13 @@ module.exports.viewadmin = async (req, res) => {
         const admin = req.user;
         let allAdmin = await Admin.find();
         allAdmin = allAdmin.filter((subadmin) => subadmin.email != admin.email);
-        return res.render('viewAdmin', { allAdmin, admin, currentPath: req.path })
+        
+        const successMessage = req.session.successMessage;
+        const errorMessage = req.session.errorMessage;
+        if (successMessage) delete req.session.successMessage;
+        if (errorMessage) delete req.session.errorMessage;
+        
+        return res.render('viewAdmin', { allAdmin, admin, currentPath: req.path, successMessage, errorMessage })
     } catch (error) {
         console.log("Something went wrong");
         console.log("Error : ", error);
@@ -32,7 +44,12 @@ module.exports.viewadmin = async (req, res) => {
 
 module.exports.addAdminPage = async (req, res) => {
     const admin = req.user;
-    return res.render('addAdmin', { admin, currentPath: req.path })
+    const successMessage = req.session.successMessage;
+    const errorMessage = req.session.errorMessage;
+    if (successMessage) delete req.session.successMessage;
+    if (errorMessage) delete req.session.errorMessage;
+    
+    return res.render('addAdmin', { admin, currentPath: req.path, successMessage, errorMessage })
 }
 
 module.exports.profile = async (req, res) => {
@@ -47,12 +64,14 @@ module.exports.verifyEmail = async (req, res) => {
 
         if (!myAdmin) {
             console.log("Admin not found....");
+            req.session.errorMessage = "Email not found. Please check your email address.";
             return res.redirect('/');
         }
 
         // Check if OTP already exists in session
         if (req.session.OTP && req.session.id) {
             console.log("OTP already sent, redirecting to OTP page");
+            req.session.successMessage = "OTP already sent to your email. Please check your inbox.";
             return res.redirect('/Otp-Page');
         }
 
@@ -116,11 +135,13 @@ module.exports.verifyEmail = async (req, res) => {
 
         req.session.OTP = OTP;
         req.session.id = myAdmin._id;
+        req.session.successMessage = "OTP sent successfully to your email!";
 
         return res.redirect('/Otp-Page');
 
     } catch (error) {
         console.log('Something Went Wrong', error);
+        req.session.errorMessage = "Failed to send OTP. Please try again.";
         return res.redirect('/');
     }
 }
@@ -130,7 +151,12 @@ module.exports.otpPage = async (req, res) => {
         if (!req.session.OTP || !req.session.id) {
             return res.redirect('/');
         }
-        return res.render('auth/otpPage');
+        const successMessage = req.session.successMessage;
+        const errorMessage = req.session.errorMessage;
+        if (successMessage) delete req.session.successMessage;
+        if (errorMessage) delete req.session.errorMessage;
+        
+        return res.render('auth/otpPage', { successMessage, errorMessage });
     }
     catch (error) {
         console.log('Something Went Wrong', error);
@@ -145,15 +171,18 @@ module.exports.VerifyOtp = async (req, res) => {
 
         if (req.body.OTP !== req.session.OTP) {
             console.log("Invalid Otp - Expected:", req.session.OTP, "Got:", req.body.OTP);
+            req.session.errorMessage = "Invalid OTP. Please try again.";
             return res.redirect('/Otp-Page');
         }
 
         delete req.session.OTP;
-        return res.redirect('/new-password');
+        req.session.successMessage = "OTP verified successfully!";
+        return res.redirect('/forgot-pass');
 
 
     } catch (error) {
         console.log('Something Went Wrong', error);
+        req.session.errorMessage = "An error occurred during OTP verification.";
         return res.redirect('/');
     }
 
@@ -163,7 +192,12 @@ module.exports.forgotPasswordPage = async (req, res) => {
         if (!req.session.id) {
             return res.redirect('/');
         }
-        return res.render('auth/forgotPass');
+        const successMessage = req.session.successMessage;
+        const errorMessage = req.session.errorMessage;
+        if (successMessage) delete req.session.successMessage;
+        if (errorMessage) delete req.session.errorMessage;
+        
+        return res.render('auth/forgotPass', { successMessage, errorMessage });
     }
     catch (error) {
         console.log('Something Went Wrong', error);
@@ -178,12 +212,14 @@ module.exports.forgotPassword = async (req, res) => {
 
         if (!req.session.id) {
             console.log("Invalid session");
+            req.session.errorMessage = "Session expired. Please try again.";
             return res.redirect('/forgot-pass');
         }
 
         if (req.body.newPass !== req.body.ConfPass) {
             console.log("New and Confirm Password not matched");
-            return res.redirect('/new-password');
+            req.session.errorMessage = "New password and confirm password do not match.";
+            return res.redirect('/forgot-pass');
         }
 
         const updatePassword = await Admin.findByIdAndUpdate(
@@ -197,14 +233,17 @@ module.exports.forgotPassword = async (req, res) => {
 
         if (updatePassword) {
             console.log("Password Update...");
+            req.session.successMessage = "Password reset successfully! Please login with your new password.";
             return res.redirect('/');
         } else {
             console.log("Password Not Update...");
+            req.session.errorMessage = "Failed to reset password. Please try again.";
             return res.redirect('/');
         }
 
     } catch (err) {
         console.log("Something went wrong", err);
+        req.session.errorMessage = "An error occurred while resetting password.";
         return res.redirect('/');
     }
 }
@@ -212,7 +251,12 @@ module.exports.forgotPassword = async (req, res) => {
 
 module.exports.changePasswordPage = async (req, res) => {
     const admin = req.user;
-    return res.render('auth/changePassPage', { admin, currentPath: req.path })
+    const successMessage = req.session.successMessage;
+    const errorMessage = req.session.errorMessage;
+    if (successMessage) delete req.session.successMessage;
+    if (errorMessage) delete req.session.errorMessage;
+    
+    return res.render('auth/changePassPage', { admin, currentPath: req.path, successMessage, errorMessage })
 }
 module.exports.changePassword = async (req, res) => {
     try {
@@ -221,16 +265,19 @@ module.exports.changePassword = async (req, res) => {
 
         if (currentPass != admin.password) {
             console.log('Current Password Is Not Matched Original Password!!');
+            req.session.errorMessage = "Current password is incorrect.";
             return res.redirect('/change-password')
         }
 
         if (newPass === admin.password) {
             console.log("New Password or original Password Is Matched!! try Again");
+            req.session.errorMessage = "New password must be different from current password.";
             return res.redirect('/change-password')
         }
 
         if (ConfPass != newPass) {
             console.log("Confirm Password Note Matched New Password!!");
+            req.session.errorMessage = "Confirm password does not match new password.";
             return res.redirect('/change-password')
         }
 
@@ -239,14 +286,17 @@ module.exports.changePassword = async (req, res) => {
 
         if (ChangePass) {
             console.log("Password Updated!!!");
+            req.session.successMessage = "Password updated successfully!";
         } else {
             console.log("Password Updation failed!!!");
+            req.session.errorMessage = "Failed to update password.";
         }
 
         return res.redirect('/')
 
     } catch (error) {
         console.log("Delete error:", error);
+        req.session.errorMessage = "An error occurred while updating password.";
         return res.redirect('/');
     }
 }
@@ -255,7 +305,12 @@ module.exports.loginPage = async (req, res) => {
     if (req.isAuthenticated()) {
         return res.redirect('/dashboard');
     }
-    return res.render('auth/login')
+    const successMessage = req.session.successMessage;
+    const errorMessage = req.session.errorMessage;
+    if (successMessage) delete req.session.successMessage;
+    if (errorMessage) delete req.session.errorMessage;
+    
+    return res.render('auth/login', { successMessage, errorMessage })
 }
 
 module.exports.logout = (req, res) => {
@@ -265,6 +320,16 @@ module.exports.logout = (req, res) => {
         }
         return res.redirect('/');
     });
+}
+
+module.exports.login = async (req, res) => {
+    try {
+        req.session.loginSuccess = true;
+        return res.redirect('/dashboard');
+    } catch (error) {
+        console.log('Something Went Wrong', error);
+        return res.redirect('/')
+    }
 }
 
 
@@ -289,18 +354,23 @@ module.exports.addAdmin = async (req, res) => {
             const AddAdmin = await Admin.create(req.body);
             if (AddAdmin) {
                 console.log("Admin Insertion SuccessFully!");
+                req.session.successMessage = "Admin added successfully!";
                 return res.redirect('/viewAdmin')
             }
             else {
                 console.log("Admin Insertion failed!");
+                req.session.errorMessage = "Failed to add admin. Please try again.";
                 return res.redirect('/addAdmin')
             }
         } catch (error) {
             console.log("Something Went Wrong", error);
+            req.session.errorMessage = "An error occurred while adding admin.";
+            return res.redirect('/addAdmin')
         }
     } catch (error) {
         console.log("Something went wrong");
         console.log("Error : ", error);
+        req.session.errorMessage = "Something went wrong. Please try again.";
         return res.redirect('/');
     }
 }
@@ -329,6 +399,7 @@ module.exports.deleteAdmin = async (req, res) => {
         
         if (!adminToDelete) {
             console.log("Admin not found for deletion");
+            req.session.errorMessage = "Admin not found.";
             return res.redirect('/viewAdmin');
         }
 
@@ -344,12 +415,16 @@ module.exports.deleteAdmin = async (req, res) => {
             }
             
             console.log("Admin Deleted Successfully!");
+            req.session.successMessage = "Admin deleted successfully!";
+        } else {
+            req.session.errorMessage = "Failed to delete admin.";
         }
 
         return res.redirect('/viewAdmin');
 
     } catch (err) {
         console.log("Delete error:", err);
+        req.session.errorMessage = "An error occurred while deleting admin.";
         return res.redirect('/viewAdmin');
     }
 }
@@ -375,6 +450,7 @@ module.exports.updateAdmin = async (req, res) => {
         const currentAdmin = await Admin.findById(req.params.id);
         if (!currentAdmin) {
             console.log("Admin not found for update");
+            req.session.errorMessage = "Admin not found.";
             return res.redirect('/viewAdmin');
         }
 
@@ -399,10 +475,12 @@ module.exports.updateAdmin = async (req, res) => {
                     deleteImageFile(currentAdmin.profile_image);
                 }
                 console.log("Admin Updated Successfully with new image...");
+                req.session.successMessage = "Admin updated successfully!";
             } else {
                 // If update failed, delete the newly uploaded image
                 deleteImageFile(req.file.path);
                 console.log("Admin Update Failed...");
+                req.session.errorMessage = "Failed to update admin.";
             }
         } else {
             // No new image uploaded, keep existing image
@@ -410,8 +488,10 @@ module.exports.updateAdmin = async (req, res) => {
 
             if (updatedData) {
                 console.log("Admin Updated Successfully...");
+                req.session.successMessage = "Admin updated successfully!";
             } else {
                 console.log("Admin Update Failed...");
+                req.session.errorMessage = "Failed to update admin.";
             }
         }
         
@@ -427,6 +507,7 @@ module.exports.updateAdmin = async (req, res) => {
             deleteImageFile(req.file.path);
         }
         
+        req.session.errorMessage = "An error occurred while updating admin.";
         return res.redirect('/viewAdmin');
     }
 }

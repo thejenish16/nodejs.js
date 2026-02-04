@@ -1,12 +1,111 @@
-        </div>
-    </main>
-    
-    <footer style="background: var(--white); border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem;">
-        <div class="container text-center">
-            <p style="color: var(--gray); margin: 0;">© 2024 AdminHub. Simple & Clean Design.</p>
-        </div>
-    </footer>
-    
-    <script src="/js/app.js"></script>
+</div>
+</main>
+
+<footer style="background: var(--white); border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem;">
+    <div class="container text-center">
+        <p style="color: var(--gray); margin: 0;">© 2024 AdminHub. Simple & Clean Design.</p>
+    </div>
+</footer>
+
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.18/dist/sweetalert2.min.css" rel="stylesheet">
+<style>
+/* Enhanced Toastify Styles */
+.toastify {
+  font-family: 'Inter', sans-serif !important;
+  border: none !important;
+  backdrop-filter: blur(10px) !important;
+}
+.toastify.on {
+  animation: toastSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+@keyframes toastSlideIn {
+  0% { transform: translateX(100%) scale(0.8); opacity: 0; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+</style>
+
+<script src="/js/app.js"></script>
+
+<script>
+// Test if Toastify is loaded
+console.log('Toastify loaded:', typeof Toastify !== 'undefined');
+
+// Enhanced Toastify notifications with better colors
+<% if (typeof successMessage !== 'undefined' && successMessage) { %>
+console.log('Success message:', '<%= successMessage %>');
+if (typeof Toastify !== 'undefined') {
+    Toastify({
+      text: "✅ <%= successMessage %>",
+      duration: 4000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(135deg, #10b981, #059669)",
+        borderRadius: "12px",
+        boxShadow: "0 10px 25px rgba(16, 185, 129, 0.3)",
+        fontSize: "15px",
+        fontWeight: "600",
+        padding: "16px 20px"
+      },
+      onClick: function(){}
+    }).showToast();
+} else {
+    alert('Success: <%= successMessage %>');
+}
+<% } %>
+
+<% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+console.log('Error message:', '<%= errorMessage %>');
+if (typeof Toastify !== 'undefined') {
+    Toastify({
+      text: "❌ <%= errorMessage %>",
+      duration: 5000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(135deg, #ef4444, #dc2626)",
+        borderRadius: "12px",
+        boxShadow: "0 10px 25px rgba(239, 68, 68, 0.3)",
+        fontSize: "15px",
+        fontWeight: "600",
+        padding: "16px 20px"
+      },
+      onClick: function(){}
+    }).showToast();
+} else {
+    alert('Error: <%= errorMessage %>');
+}
+<% } %>
+
+<% if (typeof loginSuccess !== 'undefined' && loginSuccess) { %>
+console.log('Login success detected');
+if (typeof Toastify !== 'undefined') {
+    Toastify({
+      text: "🎉 Welcome back! Login successful",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+        borderRadius: "12px",
+        boxShadow: "0 10px 25px rgba(99, 102, 241, 0.3)",
+        fontSize: "15px",
+        fontWeight: "600",
+        padding: "16px 20px"
+      },
+      onClick: function(){}
+    }).showToast();
+} else {
+    alert('Welcome back!');
+}
+<% } %>
+</script>
 </body>
+
 </html>

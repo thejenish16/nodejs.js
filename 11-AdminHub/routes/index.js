@@ -1,7 +1,7 @@
 const express = require('express');
-const multer = require('multer');
 const passport = require('passport');
-const Admin = require('../model/admin.model');
+const upload = require('../middleware/multer.middleware');
+
 const {
     dashborad,
     viewadmin,
@@ -11,6 +11,7 @@ const {
     editAdmin,
     updateAdmin,
     loginPage,
+    login,
     logout,
     changePasswordPage,
     changePassword,
@@ -23,53 +24,85 @@ const {
 } = require('../controller/admin.controller');
 
 const adminRoutes = express.Router();
+// Login
+adminRoutes.get('/', passport.checkAuthIsNotDone, loginPage);
 
-// Admin Auth Middleware
-const checkAdminAuth = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
+// Forgot password page
+adminRoutes.get('/forgot-password', passport.checkAuthIsNotDone, (req, res) => {
+    res.render('auth/forgotPassword', {
+        errorMessage: req.session.errorMessage,
+        successMessage: req.session.successMessage
+    });
+    req.session.errorMessage = null;
+    req.session.successMessage = null;
+});
+
+adminRoutes.post(
+    '/login',
+    passport.checkAuthIsNotDone,
+    (req, res, next) => {
+        passport.authenticate('localAuth', (err, user, info) => {
+            if (err) {
+                req.session.errorMessage = "Login failed. Please try again.";
+                return res.redirect('/');
+            }
+            if (!user) {
+                req.session.errorMessage = "Invalid email or password.";
+                return res.redirect('/');
+            }
+            req.logIn(user, (err) => {
+                if (err) {
+                    req.session.errorMessage = "Login failed. Please try again.";
+                    return res.redirect('/');
+                }
+                return login(req, res, next);
+            });
+        })(req, res, next);
     }
-    return res.redirect('/');
-};
+);
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'upload/admin')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-})
+// Forgot password – email verify
+adminRoutes.post('/verify-email', passport.checkAuthIsNotDone, verifyEmail);
 
-const upload = multer({ storage: storage })
+// OTP
+adminRoutes.get('/Otp-Page', passport.checkAuthIsNotDone, otpPage);
+adminRoutes.post('/VerifyOtp', passport.checkAuthIsNotDone, VerifyOtp);
 
-// Public routes (no auth required)
-adminRoutes.get('/', loginPage)
-adminRoutes.get('/forgot-pass', (req, res) => res.render('auth/verifyEmail'))
-adminRoutes.get('/Otp-Page', otpPage);
-adminRoutes.get('/new-password', forgotPasswordPage);
-adminRoutes.post('/login', passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/'
-}))
-adminRoutes.post('/verify-email', verifyEmail)
-adminRoutes.post('/verify-otp', VerifyOtp)
-adminRoutes.post('/new-password', forgotPassword)
+// New password
+adminRoutes.get('/forgot-pass', passport.checkAuthIsNotDone, forgotPasswordPage);
+adminRoutes.post('/forgot-pass', passport.checkAuthIsNotDone, forgotPassword);
 
-// Protected routes (auth required)
-adminRoutes.get('/viewAdmin', checkAdminAuth, viewadmin)
-adminRoutes.get('/addAdmin', checkAdminAuth, addAdminPage)
-adminRoutes.get('/deleteAdmin/:id', checkAdminAuth, deleteAdmin)
-adminRoutes.get('/editAdmin/:id', checkAdminAuth, editAdmin)
-adminRoutes.get('/dashboard', checkAdminAuth, dashborad)
-adminRoutes.get('/logout', logout)
-adminRoutes.get('/change-password', checkAdminAuth, changePasswordPage)
-adminRoutes.get('/profile', checkAdminAuth, profile);
+// Dashboard
+adminRoutes.get('/dashboard', passport.checkAuthIsDone, dashborad);
 
-// Protected POST routes
-adminRoutes.post('/addAdmin', checkAdminAuth, upload.single('profile_image'), addAdmin)
-adminRoutes.post('/updateAdmin/:id', checkAdminAuth, upload.single('profile_image'), updateAdmin)
-adminRoutes.post('/change-password', checkAdminAuth, changePassword)
+// Admin CRUD
+adminRoutes.get('/viewAdmin', passport.checkAuthIsDone, viewadmin);
+adminRoutes.get('/addAdmin', passport.checkAuthIsDone, addAdminPage);
+adminRoutes.post(
+    '/addAdmin',
+    passport.checkAuthIsDone,
+    upload.single('profile_image'),
+    addAdmin
+);
 
+adminRoutes.get('/editAdmin/:id', passport.checkAuthIsDone, editAdmin);
+adminRoutes.post(
+    '/updateAdmin/:id',
+    passport.checkAuthIsDone,
+    upload.single('profile_image'),
+    updateAdmin
+);
+
+adminRoutes.get('/deleteAdmin/:id', passport.checkAuthIsDone, deleteAdmin);
+
+// Profile
+adminRoutes.get('/profile', passport.checkAuthIsDone, profile);
+
+// Change password (logged in)
+adminRoutes.get('/change-password', passport.checkAuthIsDone, changePasswordPage);
+adminRoutes.post('/change-password', passport.checkAuthIsDone, changePassword);
+
+// Logout
+adminRoutes.get('/logout', passport.checkAuthIsDone, logout);
 
 module.exports = adminRoutes;

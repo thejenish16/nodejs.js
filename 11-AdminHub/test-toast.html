@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toastify Test</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 50px;
+            background: #f8fafc;
+        }
+        .btn {
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-success { background: #10b981; color: white; }
+        .btn-error { background: #ef4444; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-info { background: #6366f1; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🍞 Toastify Test Page</h1>
+    <p>Click the buttons below to test different toast notifications:</p>
+    
+    <button class="btn btn-success" onclick="showSuccessToast()">✅ Success Toast</button>
+    <button class="btn btn-error" onclick="showErrorToast()">❌ Error Toast</button>
+    <button class="btn btn-warning" onclick="showWarningToast()">⚠️ Warning Toast</button>
+    <button class="btn btn-info" onclick="showInfoToast()">ℹ️ Info Toast</button>
+
+    <script>
+        function showSuccessToast() {
+            Toastify({
+                text: "✅ Admin added successfully!",
+                duration: 4000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(135deg, #10b981, #059669)",
+                    borderRadius: "12px",
+                    boxShadow: "0 10px 25px rgba(16, 185, 129, 0.3)",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                    padding: "16px 20px"
+                },
+                onClick: function(){}
+            }).showToast();
+        }
+
+        function showErrorToast() {
+            Toastify({
+                text: "❌ Failed to add admin. Please try again.",
+                duration: 5000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(135deg, #ef4444, #dc2626)",
+                    borderRadius: "12px",
+                    boxShadow: "0 10px 25px rgba(239, 68, 68, 0.3)",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                    padding: "16px 20px"
+                },
+                onClick: function(){}
+            }).showToast();
+        }
+
+        function showWarningToast() {
+            Toastify({
+                text: "⚠️ File size must be less than 5MB",
+                duration: 4000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(135deg, #f59e0b, #d97706)",
+                    borderRadius: "12px",
+                    boxShadow: "0 10px 25px rgba(245, 158, 11, 0.3)",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                    padding: "16px 20px"
+                },
+                onClick: function(){}
+            }).showToast();
+        }
+
+        function showInfoToast() {
+            Toastify({
+                text: "ℹ️ Welcome back! Login successful",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                    borderRadius: "12px",
+                    boxShadow: "0 10px 25px rgba(99, 102, 241, 0.3)",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                    padding: "16px 20px"
+                },
+                onClick: function(){}
+            }).showToast();
+        }
+    </script>
+</body>
+</html>

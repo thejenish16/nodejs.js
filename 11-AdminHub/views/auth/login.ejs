@@ -7,6 +7,8 @@
     <title>Login - AdminHub</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <style>
         * {
             margin: 0;
@@ -260,7 +262,7 @@
         <div class="divider"></div>
         
         <div style="text-align: center;">
-            <a href="/forgot-pass" class="forgot-link">
+            <a href="/forgot-password" class="forgot-link">
                 <i class="fas fa-key" style="margin-right: 4px;"></i>
                 Forgot Password?
             </a>
@@ -271,6 +273,49 @@
             </div>
         </div>
     </div>
+    
+    <script>
+    // Enhanced Toastify notifications
+    <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+    Toastify({
+      text: "✅ <%= successMessage %>",
+      duration: 4000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(135deg, #10b981, #059669)",
+        borderRadius: "12px",
+        boxShadow: "0 10px 25px rgba(16, 185, 129, 0.3)",
+        fontSize: "15px",
+        fontWeight: "600",
+        padding: "16px 20px"
+      },
+      onClick: function(){}
+    }).showToast();
+    <% } %>
+    
+    <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+    Toastify({
+      text: "❌ <%= errorMessage %>",
+      duration: 5000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(135deg, #ef4444, #dc2626)",
+        borderRadius: "12px",
+        boxShadow: "0 10px 25px rgba(239, 68, 68, 0.3)",
+        fontSize: "15px",
+        fontWeight: "600",
+        padding: "16px 20px"
+      },
+      onClick: function(){}
+    }).showToast();
+    <% } %>
+    </script>
 </body>
 
 </html>
