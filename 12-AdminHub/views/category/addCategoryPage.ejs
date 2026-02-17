@@ -1,0 +1,153 @@
+<%- include('../header') %>
+
+<div class="page-header fade-in">
+    <h1 class="page-title">Add New Category</h1>
+    <p class="page-subtitle">Create a new category with modern interface</p>
+</div>
+
+<div class="card fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-folder-plus"></i>
+            Category Registration
+        </h3>
+    </div>
+    <div class="card-body">
+        <form action="/category/addCategory" method="POST" enctype="multipart/form-data">
+
+            <!-- Category Image Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h4 class="section-title">Category Image</h4>
+            </div>
+
+            <div class="file-upload-container">
+                <div class="file-upload-area" id="fileUploadArea">
+                    <div class="file-upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="file-upload-text">Click to upload or drag and drop</div>
+                    <div class="file-upload-hint">PNG, JPG, GIF up to 5MB</div>
+                    <input type="file" name="category_image" class="file-upload-input" id="categoryImage" accept="image/*" required>
+                </div>
+                <div class="file-preview" id="filePreview">
+                    <button type="button" class="file-remove-btn" id="removeFile">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <img class="file-preview-image" id="previewImage" alt="Preview">
+                    <div class="file-preview-info">
+                        <div class="file-preview-name" id="fileName"></div>
+                        <div class="file-preview-size" id="fileSize"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Information Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <h4 class="section-title">Category Information</h4>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-folder" style="color: var(--primary); margin-right: 8px;"></i>
+                    Category Name
+                </label>
+                <input type="text" name="category_name" class="form-input" placeholder="Enter category name" required>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="border-top: 2px solid var(--border); padding-top: 32px; margin-top: 32px;">
+                <div class="flex gap-2 justify-center">
+                    <button type="submit" class="btn btn-primary" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-save"></i>
+                        Create Category
+                    </button>
+                    <a href="/category/viewCategoriesPage" class="btn btn-outline" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('categoryImage');
+        const filePreview = document.getElementById('filePreview');
+        const previewImage = document.getElementById('previewImage');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const removeBtn = document.getElementById('removeFile');
+
+        fileUploadArea.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', function (e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', function (e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', function (e) {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        removeBtn.addEventListener('click', function () {
+            fileInput.value = '';
+            filePreview.classList.remove('show');
+            fileUploadArea.style.display = 'block';
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size must be less than 5MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                filePreview.classList.add('show');
+                fileUploadArea.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    });
+</script>
+
+<%- include('../footer') %>

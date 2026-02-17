@@ -1,0 +1,64 @@
+<%- include('../header') %>
+
+<div class="page-header fade-in">
+    <h1 class="page-title">Edit Sub Category</h1>
+    <p class="page-subtitle">Update sub category information with modern interface</p>
+</div>
+
+<div class="card fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Sub Category Update Form
+        </h3>
+    </div>
+    <div class="card-body">
+        <form action="/subCategory/editSubCategory/<%= singleSubCategory._id %>" method="POST">
+
+            <!-- Sub Category Information Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <h4 class="section-title">Sub Category Information</h4>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-folder" style="color: var(--primary); margin-right: 8px;"></i>
+                    Select Category
+                </label>
+                <select name="category_id" class="form-select" required>
+                    <option value="">Select Category</option>
+                    <% allCategory.forEach((category) => { %>
+                        <option value="<%= category._id %>" <%= singleSubCategory.category_id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.category_name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-folder-open" style="color: var(--primary); margin-right: 8px;"></i>
+                    Sub Category Name
+                </label>
+                <input type="text" name="subcategory_name" class="form-input" placeholder="Enter sub category name" value="<%= singleSubCategory.subcategory_name %>" required>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="border-top: 2px solid var(--border); padding-top: 32px; margin-top: 32px;">
+                <div class="flex gap-2 justify-center">
+                    <button type="submit" class="btn btn-primary" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-save"></i>
+                        Update Sub Category
+                    </button>
+                    <a href="/subCategory/viewSubCategoriesPage" class="btn btn-outline" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../footer') %>

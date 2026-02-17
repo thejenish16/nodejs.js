@@ -1,0 +1,164 @@
+<%- include('../header') %>
+
+    <div class="page-header fade-in">
+        <h1 class="page-title">Add New Extra Category</h1>
+        <p class="page-subtitle">Create a new extra category with modern interface</p>
+    </div>
+
+    <div class="card fade-in" style="animation-delay: 0.2s;">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-folder-plus"></i>
+                Extra Category Registration
+            </h3>
+        </div>
+        <div class="card-body">
+            <form action="/extraCategory/addExtraCategory" method="POST">
+
+                <!-- Extra Category Information Section -->
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h4 class="section-title">Extra Category Information</h4>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-folder" style="color: var(--primary); margin-right: 8px;"></i>
+                        Select Category
+                    </label>
+                    <select id="category_id" class="form-select" required>
+                        <option value="">Select Category</option>
+                        <% allCategory.forEach((category)=> { %>
+                            <option value="<%= category._id %>">
+                                <%= category.category_name %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-folder-open" style="color: var(--primary); margin-right: 8px;"></i>
+                        Select SubCategory
+                    </label>
+                    <select name="subcategory_id" id="subcategory_id" class="form-select" required>
+                        <option value="">Select SubCategory</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-box" style="color: var(--primary); margin-right: 8px;"></i>
+                        Select Products
+                    </label>
+                    <select name="product_ids" id="product_ids" class="form-select" multiple size="8" style="min-height: 200px;">
+                        <% if (allProduct && allProduct.length > 0) { %>
+                            <% allProduct.forEach((product) => { %>
+                                <option value="<%= product._id %>">
+                                    <%= product.product_name %> - ₹<%= product.product_price %>
+                                </option>
+                            <% }) %>
+                        <% } else { %>
+                            <option value="" disabled>No products available</option>
+                        <% } %>
+                    </select>
+                    <small style="color: var(--gray); margin-top: 8px; display: block; font-weight: 500;">
+                        <i class="fas fa-info-circle"></i> Hold Ctrl (Cmd on Mac) to select multiple products. Total: <%= allProduct ? allProduct.length : 0 %> products
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-layer-group" style="color: var(--primary); margin-right: 8px;"></i>
+                        Extra Category Name
+                    </label>
+                    <input type="text" name="extracategory_name" class="form-input"
+                        placeholder="Enter extra category name" required>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="border-top: 2px solid var(--border); padding-top: 32px; margin-top: 32px;">
+                    <div class="flex gap-2 justify-center">
+                        <button type="submit" class="btn btn-primary"
+                            style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                            <i class="fas fa-save"></i>
+                            Create Extra Category
+                        </button>
+                        <a href="/extraCategory/viewExtraCategoriesPage" class="btn btn-outline"
+                            style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <%- include('../footer') %>
+
+        <script>
+            const allSubCategory = <%- JSON.stringify(allSubCategory) %>;
+            const allProduct = <%- JSON.stringify(allProduct) %>;
+
+            // Category change - update subcategories
+            document.getElementById('category_id').addEventListener('change', function () {
+                const categoryId = this.value;
+                const subcategorySelect = document.getElementById('subcategory_id');
+
+                subcategorySelect.innerHTML = '<option value="">Select SubCategory</option>';
+
+                if (categoryId) {
+                    const filteredSubCategories = allSubCategory.filter(sub => sub.category_id === categoryId);
+
+                    filteredSubCategories.forEach(sub => {
+                        const option = document.createElement('option');
+                        option.value = sub._id;
+                        option.textContent = sub.subcategory_name;
+                        subcategorySelect.appendChild(option);
+                    });
+                }
+                
+                // Update products based on category
+                updateProductsList();
+            });
+
+            // SubCategory change - update products
+            document.getElementById('subcategory_id').addEventListener('change', function () {
+                updateProductsList();
+            });
+            
+            // Function to update products list based on selection
+            function updateProductsList() {
+                const categoryId = document.getElementById('category_id').value;
+                const subcategoryId = document.getElementById('subcategory_id').value;
+                const productSelect = document.getElementById('product_ids');
+
+                productSelect.innerHTML = '';
+
+                let filteredProducts = allProduct;
+                
+                // Filter by category if selected
+                if (categoryId) {
+                    filteredProducts = filteredProducts.filter(prod => prod.category_id && prod.category_id._id === categoryId);
+                }
+                
+                // Filter by subcategory if selected
+                if (subcategoryId) {
+                    filteredProducts = filteredProducts.filter(prod => prod.subcategory_id && prod.subcategory_id._id === subcategoryId);
+                }
+
+                if (filteredProducts.length > 0) {
+                    filteredProducts.forEach(prod => {
+                        const option = document.createElement('option');
+                        option.value = prod._id;
+                        option.textContent = `${prod.product_name} - ₹${prod.product_price}`;
+                        productSelect.appendChild(option);
+                    });
+                } else {
+                    productSelect.innerHTML = '<option value="" disabled>No products available</option>';
+                }
+            }
+        </script>

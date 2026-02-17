@@ -1,0 +1,222 @@
+<%- include('../header') %>
+
+<div class="page-header fade-in">
+    <h1 class="page-title">Add New Product</h1>
+    <p class="page-subtitle">Create a new product with modern interface</p>
+</div>
+
+<div class="card fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-box"></i>
+            Product Registration
+        </h3>
+    </div>
+    <div class="card-body">
+        <form action="/product/addProduct" method="POST" enctype="multipart/form-data">
+
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <h4 class="section-title">Product Information</h4>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-folder" style="color: var(--primary); margin-right: 8px;"></i>
+                    Select Category
+                </label>
+                <select id="category_id" class="form-select" required>
+                    <option value="">Select Category</option>
+                    <% allCategory.forEach((category) => { %>
+                        <option value="<%= category._id %>"><%= category.category_name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-folder-open" style="color: var(--primary); margin-right: 8px;"></i>
+                    Select SubCategory
+                </label>
+                <select id="subcategory_id" class="form-select" required>
+                    <option value="">Select SubCategory</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-layer-group" style="color: var(--primary); margin-right: 8px;"></i>
+                    Select Extra Category
+                </label>
+                <select name="extracategory_id" id="extracategory_id" class="form-select" required>
+                    <option value="">Select Extra Category</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-box" style="color: var(--primary); margin-right: 8px;"></i>
+                    Product Name
+                </label>
+                <input type="text" name="product_name" class="form-input" placeholder="Enter product name" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-dollar-sign" style="color: var(--primary); margin-right: 8px;"></i>
+                    Product Price
+                </label>
+                <input type="number" name="product_price" class="form-input" placeholder="Enter product price" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-align-left" style="color: var(--primary); margin-right: 8px;"></i>
+                    Product Description
+                </label>
+                <textarea name="product_description" class="form-input" rows="4" placeholder="Enter product description" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-image" style="color: var(--primary); margin-right: 8px;"></i>
+                    Product Image
+                </label>
+                <div class="file-upload-container">
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p class="file-upload-text">Click or drag image here</p>
+                        <p class="file-upload-hint">Supports: JPG, PNG, GIF (Max 5MB)</p>
+                        <input type="file" name="product_image" class="file-upload-input" id="productImage" accept="image/*">
+                    </div>
+                    <div class="file-preview" id="filePreview">
+                        <img src="" alt="Preview" class="file-preview-image" id="previewImage">
+                        <div class="file-preview-info">
+                            <p class="file-preview-name" id="fileName"></p>
+                            <p class="file-preview-size" id="fileSize"></p>
+                        </div>
+                        <button type="button" class="file-remove-btn" id="removeFile">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="category_id" id="hidden_category_id">
+            <input type="hidden" name="subcategory_id" id="hidden_subcategory_id">
+
+            <div style="border-top: 2px solid var(--border); padding-top: 32px; margin-top: 32px;">
+                <div class="flex gap-2 justify-center">
+                    <button type="submit" class="btn btn-primary" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-save"></i>
+                        Create Product
+                    </button>
+                    <a href="/product/viewProductsPage" class="btn btn-outline" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../footer') %>
+
+<script>
+const allSubCategory = <%- JSON.stringify(allSubCategory) %>;
+const allExtraCategory = <%- JSON.stringify(allExtraCategory) %>;
+
+// Image Preview
+const productImage = document.getElementById('productImage');
+const filePreview = document.getElementById('filePreview');
+const previewImage = document.getElementById('previewImage');
+const fileName = document.getElementById('fileName');
+const fileSize = document.getElementById('fileSize');
+const removeFile = document.getElementById('removeFile');
+const fileUploadArea = document.getElementById('fileUploadArea');
+
+productImage.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            fileName.textContent = file.name;
+            fileSize.textContent = (file.size / 1024).toFixed(2) + ' KB';
+            filePreview.classList.add('show');
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+removeFile.addEventListener('click', function() {
+    productImage.value = '';
+    filePreview.classList.remove('show');
+    previewImage.src = '';
+});
+
+// Drag and drop
+fileUploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.add('dragover');
+});
+
+fileUploadArea.addEventListener('dragleave', () => {
+    fileUploadArea.classList.remove('dragover');
+});
+
+fileUploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+        productImage.files = e.dataTransfer.files;
+        productImage.dispatchEvent(new Event('change'));
+    }
+});
+
+document.getElementById('category_id').addEventListener('change', function() {
+    const categoryId = this.value;
+    document.getElementById('hidden_category_id').value = categoryId;
+    const subcategorySelect = document.getElementById('subcategory_id');
+    const extracategorySelect = document.getElementById('extracategory_id');
+    
+    subcategorySelect.innerHTML = '<option value="">Select SubCategory</option>';
+    extracategorySelect.innerHTML = '<option value="">Select Extra Category</option>';
+    
+    if (categoryId) {
+        const filteredSubCategories = allSubCategory.filter(sub => sub.category_id.toString() === categoryId);
+        
+        filteredSubCategories.forEach(sub => {
+            const option = document.createElement('option');
+            option.value = sub._id;
+            option.textContent = sub.subcategory_name;
+            subcategorySelect.appendChild(option);
+        });
+    }
+});
+
+document.getElementById('subcategory_id').addEventListener('change', function() {
+    const subcategoryId = this.value;
+    document.getElementById('hidden_subcategory_id').value = subcategoryId;
+    const extracategorySelect = document.getElementById('extracategory_id');
+    
+    extracategorySelect.innerHTML = '<option value="">Select Extra Category</option>';
+    
+    if (subcategoryId) {
+        const filteredExtraCategories = allExtraCategory.filter(extra => extra.subcategory_id.toString() === subcategoryId);
+        
+        filteredExtraCategories.forEach(extra => {
+            const option = document.createElement('option');
+            option.value = extra._id;
+            option.textContent = extra.extracategory_name;
+            extracategorySelect.appendChild(option);
+        });
+    }
+});
+</script>

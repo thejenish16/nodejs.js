@@ -14,7 +14,7 @@
 </div>
 
 <!-- Enhanced Stats Overview -->
-<div class="grid grid-4 mb-3">
+<div class="grid grid-4 mb-3" style="position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 16px 0; margin: -16px 0 24px 0;">
     <div class="stat-card fade-in" style="animation-delay: 0.1s; border-left-color: var(--primary);">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
@@ -30,7 +30,7 @@
     <div class="stat-card fade-in" style="animation-delay: 0.2s; border-left-color: var(--success);">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <div class="stat-number" style="color: var(--success);"><%= allAdmin ? allAdmin.filter(u => u.gender === 'Male').length : 0 %></div>
+                <div class="stat-number" style="color: var(--success);"><%= allAdmin ? allAdmin.filter(u => u.gander === 'Male').length : 0 %></div>
                 <div class="stat-label">Male Admins</div>
             </div>
             <div style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
@@ -42,7 +42,7 @@
     <div class="stat-card fade-in" style="animation-delay: 0.3s; border-left-color: var(--danger);">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <div class="stat-number" style="color: var(--danger);"><%= allAdmin ? allAdmin.filter(u => u.gender === 'Female').length : 0 %></div>
+                <div class="stat-number" style="color: var(--danger);"><%= allAdmin ? allAdmin.filter(u => u.gander === 'Female').length : 0 %></div>
                 <div class="stat-label">Female Admins</div>
             </div>
             <div style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
@@ -54,7 +54,7 @@
     <div class="stat-card fade-in" style="animation-delay: 0.4s; border-left-color: var(--warning);">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <div class="stat-number" style="color: var(--warning);"><%= allAdmin ? allAdmin.filter(u => u.gender === 'Other').length : 0 %></div>
+                <div class="stat-number" style="color: var(--warning);"><%= allAdmin ? allAdmin.filter(u => u.gander === 'Other').length : 0 %></div>
                 <div class="stat-label">Other Gender</div>
             </div>
             <div style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
@@ -137,9 +137,9 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="badge badge-<%= user.gender === 'Male' ? 'primary' : user.gender === 'Female' ? 'danger' : 'warning' %>" style="padding: 8px 12px;">
-                                    <i class="fas fa-<%= user.gender === 'Male' ? 'mars' : user.gender === 'Female' ? 'venus' : 'genderless' %>"></i>
-                                    <%= user.gender %>
+                                <span class="badge badge-<%= user.gander === 'Male' ? 'primary' : user.gander === 'Female' ? 'danger' : 'warning' %>" style="padding: 8px 12px;">
+                                    <i class="fas fa-<%= user.gander === 'Male' ? 'mars' : user.gander === 'Female' ? 'venus' : 'genderless' %>"></i>
+                                    <%= user.gander %>
                                 </span>
                             </td>
                             <td>

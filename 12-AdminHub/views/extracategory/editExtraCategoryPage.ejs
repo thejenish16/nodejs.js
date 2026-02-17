@@ -1,0 +1,99 @@
+<%- include('../header') %>
+
+<div class="page-header fade-in">
+    <h1 class="page-title">Edit Extra Category</h1>
+    <p class="page-subtitle">Update extra category information with modern interface</p>
+</div>
+
+<div class="card fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Extra Category Update Form
+        </h3>
+    </div>
+    <div class="card-body">
+        <form action="/extraCategory/editExtraCategory/<%= singleExtraCategory._id %>" method="POST">
+
+            <!-- Extra Category Information Section -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <h4 class="section-title">Extra Category Information</h4>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-folder" style="color: var(--primary); margin-right: 8px;"></i>
+                    Select Category
+                </label>
+                <select id="category_id" class="form-select" required>
+                    <option value="">Select Category</option>
+                    <% allCategory.forEach((category) => { %>
+                        <option value="<%= category._id %>"><%= category.category_name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-folder-open" style="color: var(--primary); margin-right: 8px;"></i>
+                    Select SubCategory
+                </label>
+                <select name="subcategory_id" id="subcategory_id" class="form-select" required>
+                    <option value="">Select SubCategory</option>
+                    <% allSubCategory.forEach((subCategory) => { %>
+                        <option value="<%= subCategory._id %>" <%= singleExtraCategory.subcategory_id.toString() === subCategory._id.toString() ? 'selected' : '' %>><%= subCategory.subcategory_name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-layer-group" style="color: var(--primary); margin-right: 8px;"></i>
+                    Extra Category Name
+                </label>
+                <input type="text" name="extracategory_name" class="form-input" placeholder="Enter extra category name" value="<%= singleExtraCategory.extracategory_name %>" required>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="border-top: 2px solid var(--border); padding-top: 32px; margin-top: 32px;">
+                <div class="flex gap-2 justify-center">
+                    <button type="submit" class="btn btn-primary" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-save"></i>
+                        Update Extra Category
+                    </button>
+                    <a href="/extraCategory/viewExtraCategoriesPage" class="btn btn-outline" style="padding: 16px 32px; font-weight: 700; font-size: 16px;">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../footer') %>
+
+<script>
+const allSubCategory = <%- JSON.stringify(allSubCategory) %>;
+
+document.getElementById('category_id').addEventListener('change', function() {
+    const categoryId = this.value;
+    const subcategorySelect = document.getElementById('subcategory_id');
+    
+    subcategorySelect.innerHTML = '<option value="">Select SubCategory</option>';
+    
+    if (categoryId) {
+        const filteredSubCategories = allSubCategory.filter(sub => sub.category_id === categoryId);
+        
+        filteredSubCategories.forEach(sub => {
+            const option = document.createElement('option');
+            option.value = sub._id;
+            option.textContent = sub.subcategory_name;
+            subcategorySelect.appendChild(option);
+        });
+    }
+});
+</script>

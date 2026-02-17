@@ -1,0 +1,124 @@
+<%- include('../header') %>
+
+<div class="page-header fade-in">
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="page-title">Extra Category Management</h1>
+            <p class="page-subtitle">Manage your extra categories with modern interface</p>
+        </div>
+        <a href="/extraCategory/addExtraCategoryPage" class="btn btn-primary" style="padding: 16px 24px; font-weight: 700; font-size: 16px;">
+            <i class="fas fa-folder-plus"></i>
+            Add New Extra Category
+        </a>
+    </div>
+</div>
+
+<!-- Stats Overview -->
+<div class="grid grid-4 mb-3">
+    <div class="stat-card fade-in" style="animation-delay: 0.1s; border-left-color: var(--primary);">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div class="stat-number"><%= allExtraCategory ? allExtraCategory.length : 0 %></div>
+                <div class="stat-label">Total Extra Categories</div>
+            </div>
+            <div style="width: 50px; height: 50px; background: rgba(99, 102, 241, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-layer-group" style="color: var(--primary); font-size: 20px;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Extra Category List -->
+<div class="card fade-in" style="animation-delay: 0.5s;">
+    <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="card-title">
+                <i class="fas fa-list"></i>
+                Extra Category Directory (<%= allExtraCategory ? allExtraCategory.length : 0 %>)
+            </h3>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <div style="font-size: 12px; color: var(--gray); font-weight: 500;">
+                    <i class="fas fa-info-circle"></i>
+                    Last updated: <%= new Date().toLocaleDateString() %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <% if (allExtraCategory && allExtraCategory.length > 0) { %>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Rank</th>
+                            <th>Category Name</th>
+                            <th>Sub Category Name</th>
+                            <th>Extra Category Name</th>
+                            <th style="width: 150px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% allExtraCategory.forEach((extraCategory, index) => { %>
+                        <tr style="animation: fadeInUp 0.6s ease-out; animation-delay: <%= (index + 1) * 0.05 %>s; animation-fill-mode: both;">
+                            <td>
+                                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; box-shadow: var(--shadow);">
+                                    #<%= index + 1 %>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 700; color: var(--dark); font-size: 16px;">
+                                    <%= extraCategory.subcategory_id && extraCategory.subcategory_id.category_id ? extraCategory.subcategory_id.category_id.category_name : 'N/A' %>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 600; color: var(--primary); font-size: 16px;">
+                                    <%= extraCategory.subcategory_id ? extraCategory.subcategory_id.subcategory_name : 'N/A' %>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 600; color: var(--success); font-size: 16px;">
+                                    <%= extraCategory.extracategory_name %>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex gap-2">
+                                    <a href="/extraCategory/editExtraCategoryPage/<%= extraCategory._id %>" class="btn btn-warning" style="padding: 10px 14px; font-size: 12px; font-weight: 600;" title="Edit Extra Category">
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </a>
+                                    <a href="javascript:void(0)" class="btn btn-danger" style="padding: 10px 14px; font-size: 12px; font-weight: 600;" onclick="deleteExtraCategory('<%= extraCategory._id %>')" title="Delete Extra Category">
+                                        <i class="fas fa-trash"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="text-center p-2">
+                <div style="width: 140px; height: 140px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; border: 3px dashed var(--primary);">
+                    <i class="fas fa-layer-group" style="font-size: 56px; color: var(--primary);"></i>
+                </div>
+                <h3 style="color: var(--dark); margin-bottom: 16px; font-weight: 800; font-size: 28px;">No Extra Categories Found</h3>
+                <p style="color: var(--gray); margin-bottom: 32px; font-size: 16px; font-weight: 500; max-width: 400px; margin-left: auto; margin-right: auto;">Your extra category list is empty. Start organizing your content by adding the first extra category.</p>
+                <a href="/extraCategory/addExtraCategoryPage" class="btn btn-primary" style="padding: 20px 40px; font-weight: 700; font-size: 18px; border-radius: var(--radius-lg);">
+                    <i class="fas fa-folder-plus"></i>
+                    Add First Extra Category
+                </a>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../footer') %>
+
+<script>
+function deleteExtraCategory(extraCategoryId) {
+    if (confirm('⚠️ Are you sure you want to delete this extra category?\\n\\nThis action cannot be undone!')) {
+        window.location.href = '/extraCategory/deleteExtraCategory?extraCategoryId=' + extraCategoryId;
+    }
+}
+</script>

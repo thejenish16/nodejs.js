@@ -1,0 +1,191 @@
+<%- include('../header') %>
+
+<div class="page-header fade-in">
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Manage your account information</p>
+</div>
+
+<% if (typeof admin !== 'undefined' && admin) { %>
+<div class="grid grid-2">
+    <!-- Profile Information Card -->
+    <div class="card fade-in" style="animation-delay: 0.1s;">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-user-circle"></i>
+                Profile Information
+            </h3>
+        </div>
+        <div class="card-body text-center">
+            <!-- Profile Avatar -->
+            <div style="margin-bottom: 24px;">
+                <% if (admin.profile_image) { %>
+                    <img src="/<%= admin.profile_image %>" alt="<%= admin.fname %>" class="avatar-lg" 
+                         onerror="this.src='https://ui-avatars.com/api/?name=<%= admin.fname %>+<%= admin.lname %>&background=6366f1&color=fff&size=80'"
+                         style="box-shadow: var(--shadow-lg); border: 4px solid var(--white);">
+                <% } else { %>
+                    <div class="avatar-lg" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 32px; margin: 0 auto; box-shadow: var(--shadow-lg);">
+                        <%= admin.fname.charAt(0) %><%= admin.lname.charAt(0) %>
+                    </div>
+                <% } %>
+            </div>
+            
+            <!-- Name and Title -->
+            <h3 style="margin-bottom: 8px; color: var(--dark); font-weight: 800; font-size: 24px;"><%= admin.fname %> <%= admin.lname %></h3>
+            <div style="margin-bottom: 24px;">
+                <span class="badge badge-warning" style="padding: 8px 16px; font-size: 12px;">
+                    <i class="fas fa-crown"></i>
+                    System Administrator
+                </span>
+            </div>
+            
+            <!-- Profile Details -->
+            <div style="text-align: left; background: var(--light); padding: 24px; border-radius: var(--radius); margin-bottom: 24px;">
+                <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);">
+                    <div style="width: 40px; height: 40px; background: rgba(99, 102, 241, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-envelope" style="color: var(--primary);"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; color: var(--dark); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Email Address</div>
+                        <div style="color: var(--gray); font-weight: 500;"><%= admin.email %></div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);">
+                    <div style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--warning);"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; color: var(--dark); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Location</div>
+                        <div style="color: var(--gray); font-weight: 500;"><%= admin.city %></div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);">
+                    <div style="width: 40px; height: 40px; background: rgba(<%= admin.gender === 'Male' ? '99, 102, 241' : admin.gender === 'Female' ? '239, 68, 68' : '245, 158, 11' %>, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-<%= admin.gender === 'Male' ? 'mars' : admin.gender === 'Female' ? 'venus' : 'genderless' %>" style="color: var(--<%= admin.gender === 'Male' ? 'primary' : admin.gender === 'Female' ? 'danger' : 'warning' %>);"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; color: var(--dark); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Gender</div>
+                        <span class="badge badge-<%= admin.gender === 'Male' ? 'primary' : admin.gender === 'Female' ? 'danger' : 'warning' %>" style="margin-top: 4px;">
+                            <%= admin.gender %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Edit Profile Button -->
+            <a href="/editAdmin/<%= admin._id %>" class="btn btn-primary" style="padding: 16px 32px; font-weight: 700; width: 100%;">
+                <i class="fas fa-edit"></i>
+                Edit Profile Information
+            </a>
+        </div>
+    </div>
+    
+    <!-- Account Overview Card -->
+    <div class="card fade-in" style="animation-delay: 0.2s;">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-chart-line"></i>
+                Account Overview
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="stat-card mb-2" style="text-align: left; padding: 20px; border-left-color: var(--warning);">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div style="font-size: 20px; font-weight: 800; color: var(--warning); margin-bottom: 4px;">Administrator</div>
+                        <div style="color: var(--gray); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Account Type</div>
+                    </div>
+                    <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-crown" style="font-size: 24px; color: var(--warning);"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card mb-2" style="text-align: left; padding: 20px; border-left-color: var(--success);">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div style="font-size: 20px; font-weight: 800; color: var(--success); margin-bottom: 4px;">Active</div>
+                        <div style="color: var(--gray); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Account Status</div>
+                    </div>
+                    <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-check-circle" style="font-size: 24px; color: var(--success);"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card" style="text-align: left; padding: 20px; border-left-color: var(--primary);">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div style="font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 4px;">Full Access</div>
+                        <div style="color: var(--gray); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">System Permissions</div>
+                    </div>
+                    <div style="width: 60px; height: 60px; background: rgba(99, 102, 241, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-shield-alt" style="font-size: 24px; color: var(--primary);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card mt-3 fade-in" style="animation-delay: 0.3s;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-bolt"></i>
+            Quick Actions
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="grid grid-4">
+            <a href="/addAdmin" class="btn btn-primary" style="padding: 20px; text-align: center; flex-direction: column; gap: 12px;">
+                <i class="fas fa-user-plus" style="font-size: 24px;"></i>
+                <div>
+                    <div style="font-weight: 700;">Add Admin</div>
+                    <div style="font-size: 12px; opacity: 0.8;">Create new account</div>
+                </div>
+            </a>
+            <a href="/viewAdmin" class="btn btn-success" style="padding: 20px; text-align: center; flex-direction: column; gap: 12px;">
+                <i class="fas fa-users" style="font-size: 24px;"></i>
+                <div>
+                    <div style="font-weight: 700;">View Admins</div>
+                    <div style="font-size: 12px; opacity: 0.8;">Manage all users</div>
+                </div>
+            </a>
+            <a href="/dashboard" class="btn btn-warning" style="padding: 20px; text-align: center; flex-direction: column; gap: 12px;">
+                <i class="fas fa-home" style="font-size: 24px;"></i>
+                <div>
+                    <div style="font-weight: 700;">Dashboard</div>
+                    <div style="font-size: 12px; opacity: 0.8;">Go to main panel</div>
+                </div>
+            </a>
+            <a href="/logout" class="btn btn-danger" style="padding: 20px; text-align: center; flex-direction: column; gap: 12px;">
+                <i class="fas fa-sign-out-alt" style="font-size: 24px;"></i>
+                <div>
+                    <div style="font-weight: 700;">Logout</div>
+                    <div style="font-size: 12px; opacity: 0.8;">Sign out safely</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<% } else { %>
+<!-- Error State -->
+<div class="card fade-in">
+    <div class="card-body text-center">
+        <div style="width: 120px; height: 120px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: var(--danger);"></i>
+        </div>
+        <h3 style="color: var(--dark); margin-bottom: 16px; font-weight: 800;">Profile Not Found</h3>
+        <p style="color: var(--gray); margin-bottom: 32px; font-weight: 500;">Unable to load profile information. Please try logging in again.</p>
+        <a href="/logout" class="btn btn-primary" style="padding: 16px 32px; font-weight: 700;">
+            <i class="fas fa-sign-in-alt"></i>
+            Login Again
+        </a>
+    </div>
+</div>
+<% } %>
+
+<%- include('../footer') %>

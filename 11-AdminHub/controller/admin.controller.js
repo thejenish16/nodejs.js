@@ -69,7 +69,7 @@ module.exports.verifyEmail = async (req, res) => {
         }
 
         // Check if OTP already exists in session
-        if (req.session.OTP && req.session.id) {
+        if (req.session.OTP && req.session.adminId) {
             console.log("OTP already sent, redirecting to OTP page");
             req.session.successMessage = "OTP already sent to your email. Please check your inbox.";
             return res.redirect('/Otp-Page');
@@ -134,7 +134,7 @@ module.exports.verifyEmail = async (req, res) => {
         console.log(info.messageId);
 
         req.session.OTP = OTP;
-        req.session.id = myAdmin._id;
+        req.session.adminId = myAdmin._id.toString();
         req.session.successMessage = "OTP sent successfully to your email!";
 
         return res.redirect('/Otp-Page');
@@ -148,7 +148,7 @@ module.exports.verifyEmail = async (req, res) => {
 
 module.exports.otpPage = async (req, res) => {
     try {
-        if (!req.session.OTP || !req.session.id) {
+        if (!req.session.OTP || !req.session.adminId) {
             return res.redirect('/');
         }
         const successMessage = req.session.successMessage;
@@ -189,7 +189,7 @@ module.exports.VerifyOtp = async (req, res) => {
 }
 module.exports.forgotPasswordPage = async (req, res) => {
     try {
-        if (!req.session.id) {
+        if (!req.session.adminId) {
             return res.redirect('/');
         }
         const successMessage = req.session.successMessage;
@@ -210,7 +210,7 @@ module.exports.forgotPassword = async (req, res) => {
         console.log(req.body);
         console.log(req.session);
 
-        if (!req.session.id) {
+        if (!req.session.adminId) {
             console.log("Invalid session");
             req.session.errorMessage = "Session expired. Please try again.";
             return res.redirect('/forgot-pass');
@@ -223,12 +223,12 @@ module.exports.forgotPassword = async (req, res) => {
         }
 
         const updatePassword = await Admin.findByIdAndUpdate(
-            req.session.id,
+            req.session.adminId,
             { password: req.body.newPass },
             { new: true }
         );
 
-        delete req.session.id;
+        delete req.session.adminId;
         delete req.session.OTP;
 
         if (updatePassword) {
