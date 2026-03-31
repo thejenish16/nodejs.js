@@ -10,7 +10,9 @@ module.exports.addExtraCategoryPage = async (req, res) => {
         const allCategory = await Category.find();
         const allSubCategory = await SubCategory.find();
         const allProduct = await Product.find().populate('category_id').populate('subcategory_id');
-        return res.render('extracategory/addExtraCategoryPage', { allCategory, allSubCategory, allProduct, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('extracategory/addExtraCategoryPage', { allCategory, allSubCategory, allProduct, admin, currentPath: req.path, successMessage, errorMessage });
     } catch (err) {
         console.log("Error : ", err);
         req.flash('error', "Something went wrong !!");
@@ -47,7 +49,9 @@ module.exports.viewExtraCategoriesPage = async (req, res) => {
             populate: { path: 'category_id' }
         });
         console.log(allExtraCategory);
-        return res.render('extracategory/viewExtraCategoryPage', { allExtraCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('extracategory/viewExtraCategoryPage', { allExtraCategory, admin, currentPath: req.path, successMessage, errorMessage });
     } catch (err) {
         req.flash('error', "Something went wrong !!");
         console.log("Something went wrong");
@@ -95,8 +99,9 @@ module.exports.editExtraCategoryPage = async (req, res) => {
         const singleExtraCategory = await ExtraCategory.findById(req.params.extraCategoryId);
         const allCategory = await Category.find();
         const allSubCategory = await SubCategory.find();
-        
-        return res.render('extracategory/editExtraCategoryPage', { singleExtraCategory, allCategory, allSubCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('extracategory/editExtraCategoryPage', { singleExtraCategory, allCategory, allSubCategory, admin, currentPath: req.path, successMessage, errorMessage });
         
     } catch (err) {
         req.flash('error', "Something went wrong !!");

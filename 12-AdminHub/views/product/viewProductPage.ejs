@@ -65,7 +65,9 @@
             <div>
                 <div class="stat-number" style="color: #8b5cf6;">
                     <% 
-                        const totalValue = allProduct ? allProduct.reduce((sum, p) => sum + (p.product_price || 0), 0) : 0;
+                        const totalValue = allProduct && allProduct.length > 0 
+                            ? allProduct.reduce((sum, p) => sum + (p.product_price || 0), 0) 
+                            : 0;
                     %>
                     ₹<%= totalValue.toLocaleString('en-IN') %>
                 </div>

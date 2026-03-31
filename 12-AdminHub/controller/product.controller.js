@@ -11,7 +11,9 @@ module.exports.addProductPage = async (req, res) => {
         const allCategory = await Category.find();
         const allSubCategory = await SubCategory.find();
         const allExtraCategory = await ExtraCategory.find();
-        return res.render('product/addProductPage', { allCategory, allSubCategory, allExtraCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('product/addProductPage', { allCategory, allSubCategory, allExtraCategory, admin, currentPath: req.path, successMessage, errorMessage });
     } catch (err) {
         console.log("Error : ", err);
         req.flash('error', "Something went wrong !!");
@@ -48,12 +50,22 @@ module.exports.addProduct = async (req, res) => {
 module.exports.viewProductsPage = async (req, res) => {
     try {
         const admin = req.user;
-        const allProduct = await Product.find()
+        let allProduct = await Product.find()
             .populate('category_id')
             .populate('subcategory_id')
             .populate('extracategory_id');
+        
+        // Ensure product_price is a number
+        allProduct = allProduct.map(product => {
+            const productObj = product.toObject();
+            productObj.product_price = Number(productObj.product_price) || 0;
+            return productObj;
+        });
+        
         console.log(allProduct);
-        return res.render('product/viewProductPage', { allProduct, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('product/viewProductPage', { allProduct, admin, currentPath: req.path, successMessage, errorMessage });
     } catch (err) {
         req.flash('error', "Something went wrong !!");
         console.log("Something went wrong");
@@ -95,8 +107,9 @@ module.exports.editProductPage = async (req, res) => {
         const allCategory = await Category.find();
         const allSubCategory = await SubCategory.find();
         const allExtraCategory = await ExtraCategory.find();
-        
-        return res.render('product/editProductPage', { singleProduct, allCategory, allSubCategory, allExtraCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('product/editProductPage', { singleProduct, allCategory, allSubCategory, allExtraCategory, admin, currentPath: req.path, successMessage, errorMessage });
         
     } catch (err) {
         req.flash('error', "Something went wrong !!");

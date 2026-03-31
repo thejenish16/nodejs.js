@@ -50,11 +50,11 @@ document.querySelectorAll('.nav-item.has-submenu').forEach(item => {
 console.log('Toastify loaded:', typeof Toastify !== 'undefined');
 
 // Enhanced Toastify notifications with better colors
-<% if (typeof successMessage !== 'undefined' && successMessage) { %>
-console.log('Success message:', '<%= successMessage %>');
+<% if (typeof successMessage !== 'undefined' && successMessage && successMessage.length > 0) { %>
+console.log('Success message:', '<%= successMessage[0] %>');
 if (typeof Toastify !== 'undefined') {
     Toastify({
-      text: "✅ <%= successMessage %>",
+      text: "✅ <%= successMessage[0] %>",
       duration: 4000,
       close: true,
       gravity: "top",
@@ -71,15 +71,15 @@ if (typeof Toastify !== 'undefined') {
       onClick: function(){}
     }).showToast();
 } else {
-    alert('Success: <%= successMessage %>');
+    alert('Success: <%= successMessage[0] %>');
 }
 <% } %>
 
-<% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
-console.log('Error message:', '<%= errorMessage %>');
+<% if (typeof errorMessage !== 'undefined' && errorMessage && errorMessage.length > 0) { %>
+console.log('Error message:', '<%= errorMessage[0] %>');
 if (typeof Toastify !== 'undefined') {
     Toastify({
-      text: "❌ <%= errorMessage %>",
+      text: "❌ <%= errorMessage[0] %>",
       duration: 5000,
       close: true,
       gravity: "top",
@@ -96,7 +96,7 @@ if (typeof Toastify !== 'undefined') {
       onClick: function(){}
     }).showToast();
 } else {
-    alert('Error: <%= errorMessage %>');
+    alert('Error: <%= errorMessage[0] %>');
 }
 <% } %>
 

@@ -8,7 +8,9 @@ module.exports.addSubCategoryPage = async (req, res) => {
     try {
         const admin = req.user;
         const allCategory = await Category.find();
-        return res.render('subcategory/addSubCategoryPage', { allCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('subcategory/addSubCategoryPage', { allCategory, admin, currentPath: req.path, successMessage, errorMessage });
     } catch (err) {
         console.log("Error : ", err);
         req.flash('error', "Something went wrong !!");
@@ -42,7 +44,9 @@ module.exports.viewSubCategoriesPage = async (req, res) => {
         const admin = req.user;
         const allSubCategory = await SubCategory.find().populate('category_id');
         console.log(allSubCategory);
-        return res.render('subcategory/viewSubCategoryPage', { allSubCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('subcategory/viewSubCategoryPage', { allSubCategory, admin, currentPath: req.path, successMessage, errorMessage });
     } catch (err) {
         req.flash('error', "Something went wrong !!");
         console.log("Something went wrong");
@@ -92,8 +96,9 @@ module.exports.editSubCategoryPage = async (req, res) => {
         const admin = req.user;
         const singleSubCategory = await SubCategory.findById(req.params.subCategoryId);
         const allCategory = await Category.find();
-        
-        return res.render('subcategory/editSubCategoryPage', { singleSubCategory, allCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('subcategory/editSubCategoryPage', { singleSubCategory, allCategory, admin, currentPath: req.path, successMessage, errorMessage });
         
     } catch (err) {
         req.flash('error', "Something went wrong !!");

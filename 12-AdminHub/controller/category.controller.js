@@ -6,7 +6,9 @@ const fs = require('fs');
 
 module.exports.addCategoryPage = (req, res) => {
     const admin = req.user;
-    return res.render("category/addCategoryPage", { admin, currentPath: req.path });
+    const successMessage = req.flash('success');
+    const errorMessage = req.flash('error');
+    return res.render("category/addCategoryPage", { admin, currentPath: req.path, successMessage, errorMessage });
 }
 
 module.exports.addCategory = async (req, res) => {
@@ -38,7 +40,9 @@ module.exports.viewCategoriesPage = async (req, res) => {
         const admin = req.user;
         const allCategory = await Category.find();
         console.log(allCategory);
-        return res.render('category/viewCategoryPage', { allCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('category/viewCategoryPage', { allCategory, admin, currentPath: req.path, successMessage, errorMessage });
     } catch (err) {
         req.flash('error', "Something went wrong !!");
         console.log("Something went wrong");
@@ -103,8 +107,9 @@ module.exports.editCategoryPage = async (req, res) => {
         console.log(req.params);
         const admin = req.user;
         const singleCategory = await Category.findById(req.params.categoryId);
-
-        return res.render('category/editCategoryPage', { singleCategory, admin, currentPath: req.path });
+        const successMessage = req.flash('success');
+        const errorMessage = req.flash('error');
+        return res.render('category/editCategoryPage', { singleCategory, admin, currentPath: req.path, successMessage, errorMessage });
 
     } catch (err) {
         req.flash('error', "Something went wrong !!");
